@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Placement Predictor | CareerLens</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4fbf4;
+        }
+        /* Custom scrollbar for professional feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f4fbf4;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bbcabf;
+            border-radius: 0px;
+        }
+        .gauge-container {
+            position: relative;
+            width: 240px;
+            height: 120px;
+            overflow: hidden;
+        }
+        .gauge-body {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: #e8f0e9;
+            position: relative;
+        }
+        .gauge-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(#10b981 0deg, #10b981 280deg, transparent 280deg);
+            border-radius: 50%;
+            transform: rotate(-140deg);
+            transition: all 1s ease-out;
+        }
+        .gauge-cover {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#653e00",
+                        "surface-container-high": "#e3eae3",
+                        "surface-bright": "#f4fbf4",
+                        "tertiary-fixed": "#ffdad7",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#6ffbbe",
+                        "primary": "#006c49",
+                        "surface": "#f4fbf4",
+                        "surface-container": "#e8f0e9",
+                        "bg-dark": "#121212",
+                        "inverse-primary": "#4edea3",
+                        "surface-container-lowest": "#ffffff",
+                        "danger-red": "#EF4444",
+                        "on-background": "#161d19",
+                        "background": "#f4fbf4",
+                        "on-primary-fixed-variant": "#005236",
+                        "surface-light": "#FFFFFF",
+                        "surface-dim": "#d4dcd5",
+                        "surface-container-low": "#eef6ee",
+                        "outline-variant": "#bbcabf",
+                        "secondary-container": "#fea619",
+                        "on-tertiary": "#ffffff",
+                        "border-light": "#E0E0E0",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#a43a3a",
+                        "inverse-surface": "#2b322d",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#4edea3",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#2a1700",
+                        "surface-dark": "#1E1E1E",
+                        "tertiary-container": "#fc7c78",
+                        "on-primary-fixed": "#002113",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#dde4dd",
+                        "bg-light": "#FAFAFA",
+                        "on-primary-container": "#00422b",
+                        "outline": "#6c7a71",
+                        "on-surface": "#161d19",
+                        "tertiary-fixed-dim": "#ffb3af",
+                        "emerald-hover": "#059669",
+                        "border-dark": "#333333",
+                        "secondary-fixed": "#ffddb8",
+                        "secondary": "#855300",
+                        "on-tertiary-container": "#711419",
+                        "on-tertiary-fixed": "#410005",
+                        "on-secondary-container": "#684000",
+                        "on-tertiary-fixed-variant": "#842225",
+                        "surface-container-highest": "#dde4dd",
+                        "emerald-light": "#D1FAE5",
+                        "inverse-on-surface": "#ebf3eb",
+                        "surface-tint": "#006c49",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#3c4a42",
+                        "primary-container": "#10b981"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0rem",
+                        "lg": "0rem",
+                        "xl": "0rem",
+                        "full": "0rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "1rem",
+                        "gutter": "1.5rem",
+                        "container-max": "1440px",
+                        "sidebar-width": "260px",
+                        "card-padding": "1.25rem"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-[260px] flex flex-col border-r border-outline-variant bg-surface overflow-y-auto z-40">
+<div class="p-6">
+<h1 class="font-bold text-2xl tracking-tight text-primary">CareerLens</h1>
+<p class="text-xs text-on-surface-variant font-medium uppercase tracking-widest mt-1">Student Success</p>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center px-4 py-3 text-primary font-bold border-r-4 border-primary bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span class="font-medium text-sm">Placement Predictor</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">query_stats</span>
+<span class="font-medium text-sm">Skill Gap Analyzer</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">route</span>
+<span class="font-medium text-sm">Career Roadmap</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">menu_book</span>
+<span class="font-medium text-sm">Resources</span>
+</a>
+</nav>
+<div class="p-4 mt-auto border-t border-outline-variant">
+<div class="bg-primary text-white p-4 text-center">
+<p class="text-xs font-bold mb-2">PRO ACCESS</p>
+<button class="w-full bg-white text-primary text-xs font-bold py-2 hover:bg-opacity-90 transition-opacity">Upgrade to Pro</button>
+</div>
+<div class="mt-4 space-y-1">
+<a class="flex items-center px-4 py-2 text-on-surface-variant hover:bg-surface-container text-sm" href="#">
+<span class="material-symbols-outlined mr-3 text-lg">settings</span>
+                    Settings
+                </a>
+<a class="flex items-center px-4 py-2 text-on-surface-variant hover:bg-surface-container text-sm" href="#">
+<span class="material-symbols-outlined mr-3 text-lg">help</span>
+                    Help Center
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[260px] min-h-screen">
+<!-- Header -->
+<header class="flex justify-between items-center h-16 px-gutter sticky top-0 z-30 bg-surface border-b border-outline-variant">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-primary transition-colors" placeholder="Search insights..." type="text"/>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<div class="flex space-x-6 text-xs font-bold uppercase tracking-widest text-on-surface-variant mr-8">
+<a class="hover:text-primary transition-colors" href="#">Overview</a>
+<a class="text-primary border-b-2 border-primary pb-1" href="#">Analysis</a>
+<a class="hover:text-primary transition-colors" href="#">Timeline</a>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary">dark_mode</button>
+<div class="h-8 w-8 bg-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a young male college student in a crisp white shirt, smiling confidently against a minimalist grey studio background. High-key professional photography style, sharp focus, corporate aesthetic, representing the target user of the CareerLens platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCNMoqRWuxyV7cqp14VDH9RBIKFD0ly2_tQLSyoqB0BwihVxeyY_2iHMXxZs4HWcmyidJB1S0hFLWH8nMFpqzoKEQi_IFFnTIq2rU_DL8nCErums8OLOxjPuwRMZJqn5YTRi55ou5YEN6QXTr3JsR70Abt9Kk1gQNnywyIKs1Fe_F6H0roO06MDyH_jfdqXwCmV5XF6zsymckN37GOfU-QxIulYFAExZXM17o8JRP5awM7xauiIcNE"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-gutter max-w-container-max mx-auto">
+<!-- Page Title -->
+<div class="mb-8">
+<h2 class="text-headline-xl font-headline-xl text-on-background">Placement Predictor</h2>
+<p class="text-body-md text-on-surface-variant mt-1">Assess your current readiness profile against historical hiring data from top-tier tech firms.</p>
+</div>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Input Module (Left) -->
+<div class="col-span-12 lg:col-span-7 space-y-6">
+<div class="bg-white border border-outline-variant p-card-padding">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-md text-headline-md">Parameter Assessment</h3>
+<div class="flex space-x-1">
+<div class="h-1 w-8 bg-primary"></div>
+<div class="h-1 w-8 bg-surface-container"></div>
+<div class="h-1 w-8 bg-surface-container"></div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Input: DSA Score -->
+<div class="space-y-2">
+<label class="block text-label-md font-label-md text-on-surface-variant uppercase">DSA Score (0-1000)</label>
+<div class="relative">
+<input class="w-full border border-outline-variant p-3 focus:border-primary focus:ring-0 text-data-tabular font-data-tabular outline-none" type="number" value="720"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-outline">LC / CF</span>
+</div>
+<p class="text-[10px] text-outline italic">Based on LeetCode/Codeforces performance index.</p>
+</div>
+<!-- Input: Internships -->
+<div class="space-y-2">
+<label class="block text-label-md font-label-md text-on-surface-variant uppercase">Work Experience</label>
+<select class="w-full border border-outline-variant p-3 focus:border-primary focus:ring-0 text-body-md outline-none appearance-none">
+<option>No Internships</option>
+<option selected="">1 Internship (Startup)</option>
+<option>1 Internship (MNC)</option>
+<option>2+ Internships</option>
+</select>
+</div>
+<!-- Input: Projects -->
+<div class="space-y-2">
+<label class="block text-label-md font-label-md text-on-surface-variant uppercase">Project Complexity</label>
+<div class="flex gap-2">
+<button class="flex-1 py-2 border border-outline-variant text-xs font-bold hover:bg-surface-container transition-colors">LOW</button>
+<button class="flex-1 py-2 border border-primary bg-primary-container/10 text-primary text-xs font-bold">MED</button>
+<button class="flex-1 py-2 border border-outline-variant text-xs font-bold hover:bg-surface-container transition-colors">HIGH</button>
+</div>
+</div>
+<!-- Input: Soft Skills -->
+<div class="space-y-2">
+<label class="block text-label-md font-label-md text-on-surface-variant uppercase">Soft Skills Rating</label>
+<input class="w-full accent-primary mt-2" type="range"/>
+<div class="flex justify-between text-[10px] font-bold text-outline uppercase">
+<span>Needs Work</span>
+<span>Industry Ready</span>
+</div>
+</div>
+</div>
+<div class="mt-8 flex justify-end">
+<button class="bg-primary text-white px-8 py-3 font-bold text-sm tracking-wide flex items-center hover:bg-emerald-hover transition-colors">
+                                RECALCULATE PROBABILITY
+                                <span class="material-symbols-outlined ml-2 text-sm">refresh</span>
+</button>
+</div>
+</div>
+<!-- Additional Details Card -->
+<div class="bg-white border border-outline-variant p-card-padding">
+<h4 class="font-label-md text-label-md text-on-surface-variant uppercase mb-4">Historical Data Comparison</h4>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-bottom border-outline-variant">
+<th class="py-3 text-[11px] font-bold text-outline uppercase">Metric</th>
+<th class="py-3 text-[11px] font-bold text-outline uppercase">Your Profile</th>
+<th class="py-3 text-[11px] font-bold text-outline uppercase">MAANG Median</th>
+<th class="py-3 text-[11px] font-bold text-outline uppercase">Status</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr class="border-b border-outline-variant/30">
+<td class="py-4 font-medium">Core GPA</td>
+<td class="py-4 font-data-tabular">8.42</td>
+<td class="py-4 font-data-tabular text-outline">8.80</td>
+<td class="py-4">
+<span class="bg-secondary-fixed text-on-secondary-fixed text-[10px] px-2 py-1 font-bold uppercase">Amber</span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/30">
+<td class="py-4 font-medium">Open Source</td>
+<td class="py-4 font-data-tabular">12 PRs</td>
+<td class="py-4 font-data-tabular text-outline">5 PRs</td>
+<td class="py-4">
+<span class="bg-primary-container text-on-primary-container text-[10px] px-2 py-1 font-bold uppercase">High</span>
+</td>
+</tr>
+<tr>
+<td class="py-4 font-medium">Hackathons</td>
+<td class="py-4 font-data-tabular">2 Wins</td>
+<td class="py-4 font-data-tabular text-outline">1 Win</td>
+<td class="py-4">
+<span class="bg-primary-container text-on-primary-container text-[10px] px-2 py-1 font-bold uppercase">High</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Results Module (Right) -->
+<div class="col-span-12 lg:col-span-5 space-y-6">
+<!-- Gauge Visualization -->
+<div class="bg-white border border-outline-variant p-card-padding flex flex-col items-center justify-center min-h-[340px]">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase mb-8 text-center">Prediction Confidence</h3>
+<div class="gauge-container">
+<div class="gauge-body">
+<div class="gauge-fill" id="mainGauge"></div>
+<div class="gauge-cover">
+<span class="text-4xl font-bold text-primary font-data-tabular">78%</span>
+<span class="text-[10px] font-bold text-outline uppercase tracking-widest mt-1">Probability</span>
+</div>
+</div>
+</div>
+<div class="mt-8 text-center">
+<div class="inline-flex items-center px-3 py-1 bg-primary/10 text-primary border border-primary/20 mb-3">
+<span class="material-symbols-outlined text-sm mr-2" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[11px] font-bold uppercase">High Potential Candidate</span>
+</div>
+<p class="text-xs text-on-surface-variant max-w-[280px] mx-auto">Based on your current trajectory, you are in the 85th percentile of successful applicants for 'Tier 1' Product Roles.</p>
+</div>
+</div>
+<!-- Factor Breakdown -->
+<div class="bg-white border border-outline-variant p-card-padding">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase mb-6">Impact Analysis</h3>
+<div class="space-y-6">
+<!-- Factor: Technical -->
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold">
+<span class="uppercase tracking-tight text-on-surface">Technical Aptitude</span>
+<span class="text-primary font-data-tabular">+24%</span>
+</div>
+<div class="h-2 w-full bg-surface-container">
+<div class="h-full bg-primary" style="width: 82%;"></div>
+</div>
+<p class="text-[10px] text-outline">High DSA and System Design scores are significant drivers.</p>
+</div>
+<!-- Factor: Project -->
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold">
+<span class="uppercase tracking-tight text-on-surface">Project Depth</span>
+<span class="text-primary font-data-tabular">+12%</span>
+</div>
+<div class="h-2 w-full bg-surface-container">
+<div class="h-full bg-primary" style="width: 55%;"></div>
+</div>
+</div>
+<!-- Factor: GPA -->
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold">
+<span class="uppercase tracking-tight text-on-surface">Academic Baseline</span>
+<span class="text-secondary font-data-tabular">-8%</span>
+</div>
+<div class="h-2 w-full bg-surface-container">
+<div class="h-full bg-secondary" style="width: 35%;"></div>
+</div>
+<p class="text-[10px] text-outline">Current GPA is slightly below the target for top-tier consulting firms.</p>
+</div>
+<!-- Factor: Soft Skills -->
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold">
+<span class="uppercase tracking-tight text-on-surface">Communication</span>
+<span class="text-primary font-data-tabular">+15%</span>
+</div>
+<div class="h-2 w-full bg-surface-container">
+<div class="h-full bg-primary" style="width: 70%;"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-outline-variant">
+<button class="w-full border border-outline-variant py-3 text-xs font-bold uppercase tracking-widest hover:bg-surface-container transition-colors">
+                                View Full Report (PDF)
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Recommendations Section -->
+<div class="mt-gutter">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="bg-surface-container-low border-l-4 border-primary p-5 flex items-start space-x-4">
+<div class="bg-primary-container p-2 text-white">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+<div>
+<h4 class="text-sm font-bold uppercase mb-1">Target Action</h4>
+<p class="text-xs text-on-surface-variant">Focus on increasing GPA by 0.2 points in the next semester to unlock 'Tier 0' opportunities.</p>
+</div>
+</div>
+<div class="bg-surface-container-low border-l-4 border-secondary p-5 flex items-start space-x-4">
+<div class="bg-secondary-container p-2 text-white">
+<span class="material-symbols-outlined">work</span>
+</div>
+<div>
+<h4 class="text-sm font-bold uppercase mb-1">Gap Identified</h4>
+<p class="text-xs text-on-surface-variant">Your profile lacks open-source contributions. Start with contributing to documentation in CNCF projects.</p>
+</div>
+</div>
+<div class="bg-surface-container-low border-l-4 border-primary p-5 flex items-start space-x-4">
+<div class="bg-primary-container p-2 text-white">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<div>
+<h4 class="text-sm font-bold uppercase mb-1">Recommended Course</h4>
+<p class="text-xs text-on-surface-variant">Enroll in 'Advanced System Design' to boost technical aptitude for SDE-2 equivalent roles.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Interactive FAB for quick actions -->
+<button class="fixed bottom-8 right-8 bg-primary text-white w-14 h-14 flex items-center justify-center shadow-lg hover:bg-emerald-hover transition-all active:scale-95 group">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform">add</span>
+</button>
+<script>
+        // Micro-interaction for the Gauge
+        window.addEventListener('DOMContentLoaded', () => {
+            const gaugeFill = document.getElementById('mainGauge');
+            const targetPercent = 78; // The percentage shown
+            const degrees = (targetPercent / 100) * 360;
+            
+            // Adjusting conic gradient dynamically
+            // Note: In a real app we'd use a more robust SVG circle offset approach
+            // For this UI mockup we visualize the intent via standard transition
+            setTimeout(() => {
+                gaugeFill.style.background = `conic-gradient(#10b981 0deg, #10b981 ${degrees}deg, transparent ${degrees}deg)`;
+            }, 500);
+        });
+
+        // Simple tab/link active states logic
+        const links = document.querySelectorAll('nav a');
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                links.forEach(l => {
+                    l.classList.remove('text-primary', 'font-bold', 'border-r-4', 'border-primary', 'bg-surface-container');
+                    l.classList.add('text-on-surface-variant');
+                });
+                link.classList.add('text-primary', 'font-bold', 'border-r-4', 'border-primary', 'bg-surface-container');
+                link.classList.remove('text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>

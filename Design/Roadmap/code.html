@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CareerLens | Professional Roadmap</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#653e00",
+                      "surface-container-high": "#e3eae3",
+                      "surface-bright": "#f4fbf4",
+                      "tertiary-fixed": "#ffdad7",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#6ffbbe",
+                      "primary": "#006c49",
+                      "surface": "#f4fbf4",
+                      "surface-container": "#e8f0e9",
+                      "bg-dark": "#121212",
+                      "inverse-primary": "#4edea3",
+                      "surface-container-lowest": "#ffffff",
+                      "danger-red": "#EF4444",
+                      "on-background": "#161d19",
+                      "background": "#f4fbf4",
+                      "on-primary-fixed-variant": "#005236",
+                      "surface-light": "#FFFFFF",
+                      "surface-dim": "#d4dcd5",
+                      "surface-container-low": "#eef6ee",
+                      "outline-variant": "#bbcabf",
+                      "secondary-container": "#fea619",
+                      "on-tertiary": "#ffffff",
+                      "border-light": "#E0E0E0",
+                      "on-primary": "#ffffff",
+                      "tertiary": "#a43a3a",
+                      "inverse-surface": "#2b322d",
+                      "on-error-container": "#93000a",
+                      "primary-fixed-dim": "#4edea3",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed": "#2a1700",
+                      "surface-dark": "#1E1E1E",
+                      "tertiary-container": "#fc7c78",
+                      "on-primary-fixed": "#002113",
+                      "on-secondary": "#ffffff",
+                      "surface-variant": "#dde4dd",
+                      "bg-light": "#FAFAFA",
+                      "on-primary-container": "#00422b",
+                      "outline": "#6c7a71",
+                      "on-surface": "#161d19",
+                      "tertiary-fixed-dim": "#ffb3af",
+                      "emerald-hover": "#059669",
+                      "border-dark": "#333333",
+                      "secondary-fixed": "#ffddb8",
+                      "secondary": "#855300",
+                      "on-tertiary-container": "#711419",
+                      "on-tertiary-fixed": "#410005",
+                      "on-secondary-container": "#684000",
+                      "on-tertiary-fixed-variant": "#842225",
+                      "surface-container-highest": "#dde4dd",
+                      "emerald-light": "#D1FAE5",
+                      "inverse-on-surface": "#ebf3eb",
+                      "surface-tint": "#006c49",
+                      "secondary-fixed-dim": "#ffb95f",
+                      "on-error": "#ffffff",
+                      "on-surface-variant": "#3c4a42",
+                      "primary-container": "#10b981"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "1rem",
+                      "gutter": "1.5rem",
+                      "container-max": "1440px",
+                      "sidebar-width": "260px",
+                      "card-padding": "1.25rem"
+              },
+              "fontFamily": {
+                      "data-tabular": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-md": ["Inter"]
+              },
+              "fontSize": {
+                      "data-tabular": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .roadmap-line {
+            background: repeating-linear-gradient(to bottom, #bbcabf 0, #bbcabf 8px, transparent 8px, transparent 16px);
+        }
+        .active-roadmap-line {
+            background: #006c49;
+        }
+        .scroll-hide::-webkit-scrollbar { display: none; }
+        .scroll-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-[260px] flex flex-col bg-surface border-r border-outline-variant z-50">
+<div class="p-6 flex flex-col gap-1">
+<span class="font-headline-md text-headline-md text-primary">CareerLens</span>
+<span class="font-label-md text-label-md text-outline uppercase tracking-widest">Student Success</span>
+</div>
+<nav class="flex-1 px-4 py-2 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-md">Placement Predictor</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+<span class="font-body-md">Skill Gap Analyzer</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-bold border-r-4 border-primary bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="route">route</span>
+<span class="font-body-md">Career Roadmap</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-body-md">Resources</span>
+</a>
+</nav>
+<div class="p-4 mt-auto border-t border-outline-variant">
+<div class="bg-primary-container p-4 rounded-xl mb-4">
+<p class="font-label-md text-on-primary-container font-bold mb-2">Upgrade to Pro</p>
+<p class="text-xs text-on-primary-container opacity-80 mb-3">Unlock AI-powered personalized mentorship.</p>
+<button class="w-full py-2 bg-on-primary-container text-white text-xs font-bold rounded hover:opacity-90 transition-opacity">GO PREMIUM</button>
+</div>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+<span class="text-sm">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="help">help</span>
+<span class="text-sm">Help Center</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="ml-[260px] flex justify-between items-center h-16 px-gutter sticky top-0 z-40 bg-surface-light border-b border-outline-variant">
+<div class="flex items-center gap-8">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container border-none rounded-lg focus:ring-1 focus:ring-primary w-64 text-sm" placeholder="Search roadmap nodes..." type="text"/>
+</div>
+<nav class="hidden md:flex gap-6">
+<a class="font-label-md text-primary border-b-2 border-primary pb-1" href="#">Overview</a>
+<a class="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Analysis</a>
+<a class="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Timeline</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-danger-red rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-outline-variant overflow-hidden border border-outline">
+<img class="w-full h-full object-cover" data-alt="A high-quality studio portrait of a professional young university student with a confident smile, wearing a clean smart-casual outfit. The lighting is soft and directional, against a minimalist neutral grey background, embodying a modern and professional academic aesthetic with a crisp, corporate finish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6Hv3l3-XBa8ovI9-XzqnIwbxT5tuiG1gRU6VY2bGSyGTtsL3hyQaUpcPwTRHL501AJvlE8qKGIq72ooQ4PKYTdf9kMSKZmTg98H7xygEHKpAhbkn0jZsqv7ViaoY5suT43AwcAypVmfRjBqSICWj_XMcaCKvjYohP_iSwwDUqmDMjrI916alGMBhU26Ek-1sfsolSGxuUy9QhFR28ZkUyUuiKMj4K7kra9AVFOul7pf4FNPlpHHjH"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[260px] p-gutter">
+<div class="max-w-[1200px] mx-auto">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-10">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Software Engineering Roadmap</h1>
+<p class="text-on-surface-variant mt-2 max-w-2xl">A precision-engineered learning path designed to bridge the gap between academic theory and industry-grade expertise. Optimized for Full-Stack specialization.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-outline text-on-surface rounded font-bold text-sm hover:bg-surface-container transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
+                        Export PDF
+                    </button>
+<button class="px-6 py-2 bg-primary text-white rounded font-bold text-sm hover:bg-emerald-hover transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+                        Customize Path
+                    </button>
+</div>
+</div>
+<!-- Roadmap Layout: Timeline + Detail Panel -->
+<div class="flex gap-8 items-start">
+<!-- Vertical Timeline Container -->
+<div class="w-2/5 flex flex-col gap-0 relative">
+<!-- Vertical Line Connector -->
+<div class="absolute left-[23px] top-4 bottom-4 w-0.5 roadmap-line z-0"></div>
+<!-- Milestone 1: Completed -->
+<div class="relative z-10 flex gap-6 pb-12 group cursor-pointer" onclick="setActiveNode('node1')">
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center border-4 border-surface shadow-sm transition-transform group-hover:scale-110" id="node1-circle">
+<span class="material-symbols-outlined text-white" data-icon="check" data-weight="fill">check</span>
+</div>
+<div class="flex-1 pt-1">
+<span class="font-label-md text-primary uppercase tracking-tighter">Completed</span>
+<h3 class="font-headline-md text-on-surface group-hover:text-primary transition-colors">Fundamentals of CS</h3>
+<p class="text-sm text-on-surface-variant mt-1">Data structures, basic algorithms, and discrete math.</p>
+</div>
+</div>
+<!-- Milestone 2: Active -->
+<div class="relative z-10 flex gap-6 pb-12 group cursor-pointer" onclick="setActiveNode('node2')">
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center border-4 border-surface ring-4 ring-primary-container transition-transform group-hover:scale-110" id="node2-circle">
+<span class="material-symbols-outlined text-white" data-icon="play_arrow" data-weight="fill">play_arrow</span>
+</div>
+<div class="flex-1 pt-1">
+<span class="font-label-md text-primary font-bold uppercase tracking-tighter">Current Goal</span>
+<h3 class="font-headline-md text-primary">Learn Advanced Python</h3>
+<p class="text-sm text-on-surface-variant mt-1">Decorators, generators, threading, and async programming.</p>
+<div class="mt-3 w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="w-3/4 h-full bg-primary"></div>
+</div>
+<span class="text-[11px] text-outline font-bold mt-1 block">75% COMPLETE</span>
+</div>
+</div>
+<!-- Milestone 3: Future -->
+<div class="relative z-10 flex gap-6 pb-12 group cursor-pointer opacity-60 hover:opacity-100 transition-opacity" onclick="setActiveNode('node3')">
+<div class="w-12 h-12 rounded-full bg-surface border-4 border-outline-variant flex items-center justify-center transition-transform group-hover:scale-110 group-hover:border-primary" id="node3-circle">
+<span class="material-symbols-outlined text-outline group-hover:text-primary" data-icon="lock">lock</span>
+</div>
+<div class="flex-1 pt-1">
+<span class="font-label-md text-outline uppercase tracking-tighter">Level 3</span>
+<h3 class="font-headline-md text-on-surface">System Design Basics</h3>
+<p class="text-sm text-on-surface-variant mt-1">Scalability, load balancing, and database sharding concepts.</p>
+</div>
+</div>
+<!-- Milestone 4: Future -->
+<div class="relative z-10 flex gap-6 group cursor-pointer opacity-60 hover:opacity-100 transition-opacity" onclick="setActiveNode('node4')">
+<div class="w-12 h-12 rounded-full bg-surface border-4 border-outline-variant flex items-center justify-center transition-transform group-hover:scale-110 group-hover:border-primary" id="node4-circle">
+<span class="material-symbols-outlined text-outline group-hover:text-primary" data-icon="architecture">architecture</span>
+</div>
+<div class="flex-1 pt-1">
+<span class="font-label-md text-outline uppercase tracking-tighter">Level 4</span>
+<h3 class="font-headline-md text-on-surface">Microservices & Cloud</h3>
+<p class="text-sm text-on-surface-variant mt-1">Docker, Kubernetes, and AWS deployment strategies.</p>
+</div>
+</div>
+</div>
+<!-- Detail Panel -->
+<div class="w-3/5 bg-surface-light border border-outline-variant rounded-xl p-8 sticky top-24 min-h-[600px] flex flex-col" id="detail-panel">
+<div class="space-y-8 animate-in fade-in duration-500" id="node-detail-content">
+<!-- Node Header -->
+<div class="flex justify-between items-start">
+<div>
+<span class="px-3 py-1 bg-primary-container text-on-primary-container text-[10px] font-bold rounded uppercase">In Progress</span>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mt-3">Learn Advanced Python</h2>
+<p class="text-on-surface-variant mt-2">Master the internal workings of Python to write highly efficient, professional-grade code.</p>
+</div>
+<div class="text-right">
+<p class="text-outline text-xs font-bold uppercase">Estimated Time</p>
+<p class="font-headline-md text-primary">3.5 Weeks</p>
+</div>
+</div>
+<!-- Progress Stats -->
+<div class="grid grid-cols-3 gap-4">
+<div class="p-4 bg-surface border border-outline-variant rounded-lg">
+<p class="text-xs text-outline font-bold mb-1">MODULES</p>
+<p class="font-headline-md">6 / 8</p>
+</div>
+<div class="p-4 bg-surface border border-outline-variant rounded-lg">
+<p class="text-xs text-outline font-bold mb-1">QUIZZES</p>
+<p class="font-headline-md">12 / 15</p>
+</div>
+<div class="p-4 bg-surface border border-outline-variant rounded-lg">
+<p class="text-xs text-outline font-bold mb-1">PRACTICE HRS</p>
+<p class="font-headline-md">42.5</p>
+</div>
+</div>
+<!-- Learning Steps -->
+<div class="space-y-4">
+<h4 class="font-label-md text-on-surface-variant font-bold border-b border-outline-variant pb-2">CRITICAL LEARNING STEPS</h4>
+<div class="flex items-center gap-4 p-3 bg-surface-container-low rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" data-weight="fill">check_circle</span>
+<div class="flex-1">
+<p class="font-bold text-sm">Deep Dive: Memory Management</p>
+<p class="text-xs text-on-surface-variant">Reference counting and cyclic garbage collection.</p>
+</div>
+<span class="text-xs text-outline font-mono">100%</span>
+</div>
+<div class="flex items-center gap-4 p-3 bg-surface-container-low rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" data-weight="fill">check_circle</span>
+<div class="flex-1">
+<p class="font-bold text-sm">Functional Programming in Python</p>
+<p class="text-xs text-on-surface-variant">Map, filter, reduce, and advanced lambda functions.</p>
+</div>
+<span class="text-xs text-outline font-mono">100%</span>
+</div>
+<div class="flex items-center gap-4 p-3 bg-surface-bright rounded-lg border border-primary">
+<span class="material-symbols-outlined text-primary animate-pulse" data-icon="radio_button_checked">radio_button_checked</span>
+<div class="flex-1">
+<p class="font-bold text-sm text-primary">Concurreny & Parallelism</p>
+<p class="text-xs text-on-surface-variant">GIL limitations, Multiprocessing vs. Threading.</p>
+</div>
+<span class="text-xs text-primary font-bold font-mono">ACTIVE</span>
+</div>
+<div class="flex items-center gap-4 p-3 opacity-50">
+<span class="material-symbols-outlined text-outline" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+<div class="flex-1">
+<p class="font-bold text-sm">Metaprogramming & Introspection</p>
+<p class="text-xs text-on-surface-variant">Class decorators and metaclasses.</p>
+</div>
+<span class="text-xs text-outline font-mono">LOCKED</span>
+</div>
+</div>
+<!-- Resources Bento -->
+<div class="space-y-4 pt-4">
+<h4 class="font-label-md text-on-surface-variant font-bold border-b border-outline-variant pb-2">CURATED RESOURCES</h4>
+<div class="grid grid-cols-2 gap-4">
+<a class="group p-4 bg-surface border border-outline-variant rounded-lg hover:border-primary transition-all" href="#">
+<div class="flex justify-between items-start mb-3">
+<span class="material-symbols-outlined text-primary" data-icon="menu_book">menu_book</span>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</div>
+<p class="font-bold text-sm">Fluent Python</p>
+<p class="text-xs text-on-surface-variant mt-1">Luciano Ramalho's definitive guide to effective coding.</p>
+</a>
+<a class="group p-4 bg-surface border border-outline-variant rounded-lg hover:border-primary transition-all" href="#">
+<div class="flex justify-between items-start mb-3">
+<span class="material-symbols-outlined text-primary" data-icon="movie">movie</span>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</div>
+<p class="font-bold text-sm">Advanced Python Dev</p>
+<p class="text-xs text-on-surface-variant mt-1">Video series covering async and GIL internals.</p>
+</a>
+</div>
+</div>
+<div class="mt-auto pt-8">
+<button class="w-full py-4 bg-primary text-white rounded-lg font-bold flex items-center justify-center gap-3 hover:bg-emerald-hover transition-colors">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+                                RESUME LEARNING SESSION
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        const nodeData = {
+            node1: {
+                title: "Fundamentals of CS",
+                status: "Completed",
+                badge: "COMPLETED",
+                desc: "Solidifying core concepts of computation, discrete structures, and fundamental algorithms required for senior engineering roles.",
+                time: "8 Weeks",
+                modules: "12 / 12",
+                quizzes: "24 / 24",
+                hrs: "120.0",
+                steps: [
+                    { title: "Big O Notation Mastery", desc: "Analyzing time and space complexity in any context.", progress: "100%", status: "done" },
+                    { title: "Linked Lists & Binary Trees", desc: "Implementation and optimization from scratch.", progress: "100%", status: "done" },
+                    { title: "Dynamic Programming", desc: "Memoization and Tabulation techniques.", progress: "100%", status: "done" }
+                ],
+                resources: [
+                    { type: "menu_book", title: "CLRS Algorithms", desc: "The gold standard in algorithmic theory." },
+                    { type: "quiz", title: "Practice Lab: Sorting", desc: "Interactive visualizer for sorting logic." }
+                ]
+            },
+            node2: {
+                title: "Learn Advanced Python",
+                status: "In Progress",
+                badge: "IN PROGRESS",
+                desc: "Master the internal workings of Python to write highly efficient, professional-grade code.",
+                time: "3.5 Weeks",
+                modules: "6 / 8",
+                quizzes: "12 / 15",
+                hrs: "42.5",
+                steps: [
+                    { title: "Deep Dive: Memory Management", desc: "Reference counting and cyclic garbage collection.", progress: "100%", status: "done" },
+                    { title: "Functional Programming in Python", desc: "Map, filter, reduce, and advanced lambda functions.", progress: "100%", status: "done" },
+                    { title: "Concurreny & Parallelism", desc: "GIL limitations, Multiprocessing vs. Threading.", progress: "ACTIVE", status: "active" },
+                    { title: "Metaprogramming", desc: "Class decorators and metaclasses.", progress: "LOCKED", status: "locked" }
+                ],
+                resources: [
+                    { type: "menu_book", title: "Fluent Python", desc: "Luciano Ramalho's definitive guide to effective coding." },
+                    { type: "movie", title: "Advanced Python Dev", desc: "Video series covering async and GIL internals." }
+                ]
+            },
+            node3: {
+                title: "System Design Basics",
+                status: "Future Goal",
+                badge: "LOCKED",
+                desc: "Understand how to architect large-scale web applications with millions of concurrent users.",
+                time: "5 Weeks",
+                modules: "0 / 10",
+                quizzes: "0 / 18",
+                hrs: "0.0",
+                steps: [
+                    { title: "Scalability Principles", desc: "Vertical vs Horizontal scaling strategies.", progress: "0%", status: "locked" },
+                    { title: "Load Balancer Selection", desc: "Nginx, HAProxy, and Layer 4 vs Layer 7 routing.", progress: "0%", status: "locked" }
+                ],
+                resources: [
+                    { type: "menu_book", title: "System Design Interview", desc: "Alex Xu's comprehensive guide to scalability." },
+                    { type: "public", title: "High Scalability Blog", desc: "Real-world architecture case studies." }
+                ]
+            },
+            node4: {
+                title: "Microservices & Cloud",
+                status: "Future Goal",
+                badge: "LOCKED",
+                desc: "Deployment, orchestration, and service mesh management for modern cloud-native applications.",
+                time: "6 Weeks",
+                modules: "0 / 15",
+                quizzes: "0 / 20",
+                hrs: "0.0",
+                steps: [
+                    { title: "Docker Containerization", desc: "Creating optimized multi-stage builds.", progress: "0%", status: "locked" },
+                    { title: "K8s Orchestration", desc: "Pods, services, and ingress controller configs.", progress: "0%", status: "locked" }
+                ],
+                resources: [
+                    { type: "cloud", title: "AWS Solutions Architect", desc: "Official training for cloud infrastructure." },
+                    { type: "terminal", title: "Kubernetes the Hard Way", desc: "Kelsey Hightower's deep dive guide." }
+                ]
+            }
+        };
+
+        function setActiveNode(nodeId) {
+            const data = nodeData[nodeId];
+            const panel = document.getElementById('node-detail-content');
+            
+            // Subtle transition effect
+            panel.style.opacity = '0';
+            
+            setTimeout(() => {
+                let stepsHtml = data.steps.map(step => `
+                    <div class="flex items-center gap-4 p-3 ${step.status === 'done' ? 'bg-surface-container-low border border-outline-variant' : (step.status === 'active' ? 'bg-surface-bright border border-primary' : 'opacity-50')} rounded-lg">
+                        <span class="material-symbols-outlined ${step.status === 'done' || step.status === 'active' ? 'text-primary' : 'text-outline'} ${step.status === 'active' ? 'animate-pulse' : ''}" data-icon="${step.status === 'done' ? 'check_circle' : (step.status === 'active' ? 'radio_button_checked' : 'radio_button_unchecked')}" ${step.status === 'done' ? 'data-weight="fill"' : ''}>${step.status === 'done' ? 'check_circle' : (step.status === 'active' ? 'radio_button_checked' : 'radio_button_unchecked')}</span>
+                        <div class="flex-1">
+                            <p class="font-bold text-sm ${step.status === 'active' ? 'text-primary' : ''}">${step.title}</p>
+                            <p class="text-xs text-on-surface-variant">${step.desc}</p>
+                        </div>
+                        <span class="text-xs ${step.status === 'active' ? 'text-primary font-bold' : 'text-outline'} font-mono">${step.progress}</span>
+                    </div>
+                `).join('');
+
+                let resourcesHtml = data.resources.map(res => `
+                    <a href="#" class="group p-4 bg-surface border border-outline-variant rounded-lg hover:border-primary transition-all">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="material-symbols-outlined text-primary" data-icon="${res.type}">${res.type}</span>
+                            <span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+                        </div>
+                        <p class="font-bold text-sm">${res.title}</p>
+                        <p class="text-xs text-on-surface-variant mt-1">${res.desc}</p>
+                    </a>
+                `).join('');
+
+                panel.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="px-3 py-1 ${data.status === 'Completed' ? 'bg-primary text-white' : 'bg-primary-container text-on-primary-container'} text-[10px] font-bold rounded uppercase">${data.badge}</span>
+                            <h2 class="font-headline-xl text-headline-xl text-on-surface mt-3">${data.title}</h2>
+                            <p class="text-on-surface-variant mt-2">${data.desc}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-outline text-xs font-bold uppercase">Estimated Time</p>
+                            <p class="font-headline-md text-primary">${data.time}</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="p-4 bg-surface border border-outline-variant rounded-lg">
+                            <p class="text-xs text-outline font-bold mb-1">MODULES</p>
+                            <p class="font-headline-md">${data.modules}</p>
+                        </div>
+                        <div class="p-4 bg-surface border border-outline-variant rounded-lg">
+                            <p class="text-xs text-outline font-bold mb-1">QUIZZES</p>
+                            <p class="font-headline-md">${data.quizzes}</p>
+                        </div>
+                        <div class="p-4 bg-surface border border-outline-variant rounded-lg">
+                            <p class="text-xs text-outline font-bold mb-1">PRACTICE HRS</p>
+                            <p class="font-headline-md">${data.hrs}</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="font-label-md text-on-surface-variant font-bold border-b border-outline-variant pb-2">CRITICAL LEARNING STEPS</h4>
+                        ${stepsHtml}
+                    </div>
+                    <div class="space-y-4 pt-4">
+                        <h4 class="font-label-md text-on-surface-variant font-bold border-b border-outline-variant pb-2">CURATED RESOURCES</h4>
+                        <div class="grid grid-cols-2 gap-4">${resourcesHtml}</div>
+                    </div>
+                    <div class="mt-auto pt-8">
+                        <button class="w-full py-4 ${data.status === 'Completed' ? 'bg-surface-container text-primary border border-primary' : 'bg-primary text-white'} rounded-lg font-bold flex items-center justify-center gap-3 hover:opacity-90 transition-all">
+                            <span class="material-symbols-outlined" data-icon="${data.status === 'Completed' ? 'refresh' : 'rocket_launch'}">${data.status === 'Completed' ? 'refresh' : 'rocket_launch'}</span>
+                            ${data.status === 'Completed' ? 'REVIEW CONTENT' : 'RESUME LEARNING SESSION'}
+                        </button>
+                    </div>
+                `;
+                panel.style.opacity = '1';
+            }, 300);
+        }
+    </script>
+</body></html>

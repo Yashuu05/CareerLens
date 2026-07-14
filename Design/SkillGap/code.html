@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Skill Gap Analyzer - CareerLens</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#653e00",
+                      "surface-container-high": "#e3eae3",
+                      "surface-bright": "#f4fbf4",
+                      "tertiary-fixed": "#ffdad7",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#6ffbbe",
+                      "primary": "#006c49",
+                      "surface": "#f4fbf4",
+                      "surface-container": "#e8f0e9",
+                      "bg-dark": "#121212",
+                      "inverse-primary": "#4edea3",
+                      "surface-container-lowest": "#ffffff",
+                      "danger-red": "#EF4444",
+                      "on-background": "#161d19",
+                      "background": "#f4fbf4",
+                      "on-primary-fixed-variant": "#005236",
+                      "surface-light": "#FFFFFF",
+                      "surface-dim": "#d4dcd5",
+                      "surface-container-low": "#eef6ee",
+                      "outline-variant": "#bbcabf",
+                      "secondary-container": "#fea619",
+                      "on-tertiary": "#ffffff",
+                      "border-light": "#E0E0E0",
+                      "on-primary": "#ffffff",
+                      "tertiary": "#a43a3a",
+                      "inverse-surface": "#2b322d",
+                      "on-error-container": "#93000a",
+                      "primary-fixed-dim": "#4edea3",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed": "#2a1700",
+                      "surface-dark": "#1E1E1E",
+                      "tertiary-container": "#fc7c78",
+                      "on-primary-fixed": "#002113",
+                      "on-secondary": "#ffffff",
+                      "surface-variant": "#dde4dd",
+                      "bg-light": "#FAFAFA",
+                      "on-primary-container": "#00422b",
+                      "outline": "#6c7a71",
+                      "on-surface": "#161d19",
+                      "tertiary-fixed-dim": "#ffb3af",
+                      "emerald-hover": "#059669",
+                      "border-dark": "#333333",
+                      "secondary-fixed": "#ffddb8",
+                      "secondary": "#855300",
+                      "on-tertiary-container": "#711419",
+                      "on-tertiary-fixed": "#410005",
+                      "on-secondary-container": "#684000",
+                      "on-tertiary-fixed-variant": "#842225",
+                      "surface-container-highest": "#dde4dd",
+                      "emerald-light": "#D1FAE5",
+                      "inverse-on-surface": "#ebf3eb",
+                      "surface-tint": "#006c49",
+                      "secondary-fixed-dim": "#ffb95f",
+                      "on-error": "#ffffff",
+                      "on-surface-variant": "#3c4a42",
+                      "primary-container": "#10b981"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "1rem",
+                      "gutter": "1.5rem",
+                      "container-max": "1440px",
+                      "sidebar-width": "260px",
+                      "card-padding": "1.25rem"
+              },
+              "fontFamily": {
+                      "data-tabular": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-md": ["Inter"]
+              },
+              "fontSize": {
+                      "data-tabular": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f4fbf4; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .no-shadow { box-shadow: none !important; }
+        .chart-container { position: relative; width: 100%; height: 350px; }
+        .gap-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .7; } }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-[260px] flex flex-col border-r border-outline-variant bg-surface z-50">
+<div class="p-6 flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-lg" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary">CareerLens</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Student Success</p>
+</div>
+</div>
+<nav class="flex-1 mt-4">
+<div class="px-3 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 font-body-md text-body-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 font-body-md text-body-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                    Placement Predictor
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 font-body-md text-body-md text-primary font-bold border-r-4 border-primary bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" data-icon="query_stats" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+                    Skill Gap Analyzer
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 font-body-md text-body-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="route">route</span>
+                    Career Roadmap
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 font-body-md text-body-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+                    Resources
+                </a>
+</div>
+</nav>
+<div class="p-4 mt-auto border-t border-outline-variant">
+<div class="p-4 bg-primary rounded-xl mb-4">
+<p class="font-label-md text-label-md text-emerald-light mb-2">PRO PLAN</p>
+<p class="font-body-md text-body-md text-white font-bold mb-4">Unlock premium analytics and interview prep.</p>
+<button class="w-full py-2 bg-white text-primary font-bold text-label-md rounded hover:bg-emerald-light transition-colors">Upgrade to Pro</button>
+</div>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 font-body-md text-body-md text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 font-body-md text-body-md text-on-surface-variant hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                    Help Center
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-[260px] min-h-screen">
+<!-- Top Bar -->
+<header class="h-16 flex items-center justify-between px-gutter border-b border-outline-variant bg-surface sticky top-0 z-40">
+<div class="flex items-center gap-4 flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-full py-2 pl-10 pr-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none text-body-md font-body-md" placeholder="Search skills, industries, or companies..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex items-center gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Overview</a>
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">Analysis</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Timeline</a>
+</nav>
+<div class="flex items-center gap-3 pl-6 border-l border-outline-variant">
+<button class="p-2 hover:bg-surface-container rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-surface-container rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+<div class="w-8 h-8 rounded-full border border-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a young male college student wearing a clean white shirt, smiling confidently, with a soft-focus library background. The lighting is warm and natural, reinforcing an academic yet professional career-ready persona." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfmuBd609mtTnpCXy2NXOqGaY8DvydARjja0CbFSc7sJTjagZGLUTwgnlePsXSUannf8WGZWKArNQCjkKnTqI-yjWfVEwprqnh5rx8jRtw4riYAEnZzEbIye3KYJ7CKr6cZBUbTyyBHk4zb9zyDnUkDZaw6IzDPk2SJ2UMJCWlDRi-vfyco4JXgWevUb0rsYEdxFMvdI4UdkMTKUXX_323-C72HhZ-SA6xEoEjQtaSPynbFHjLqc3K"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="p-gutter space-y-6">
+<!-- Header Section -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-1">Skill Gap Analyzer</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Targeting: <span class="font-bold text-primary">Senior Frontend Engineer</span> @ Google</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-outline-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="file_download">file_download</span>
+                        Export Report
+                    </button>
+<button class="px-4 py-2 bg-primary text-white font-label-md text-label-md hover:bg-emerald-hover transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+                        Re-scan Resume
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Comparison Visualization -->
+<div class="col-span-12 lg:col-span-7 bg-surface-light border border-outline-variant p-card-padding">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface">Skill Profile Comparison</h3>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-primary rounded-full"></span>
+<span class="text-label-md font-label-md text-on-surface-variant">Current</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-secondary-container rounded-full"></span>
+<span class="text-label-md font-label-md text-on-surface-variant">Required</span>
+</div>
+</div>
+</div>
+<div class="chart-container flex items-center justify-center">
+<!-- Custom SVG Radar Chart for maximum control/theme alignment -->
+<svg class="w-full h-full max-w-[350px]" viewbox="0 0 400 400">
+<!-- Grid Background -->
+<circle cx="200" cy="200" fill="none" r="160" stroke="#E0E0E0" stroke-width="1"></circle>
+<circle cx="200" cy="200" fill="none" r="120" stroke="#E0E0E0" stroke-width="1"></circle>
+<circle cx="200" cy="200" fill="none" r="80" stroke="#E0E0E0" stroke-width="1"></circle>
+<circle cx="200" cy="200" fill="none" r="40" stroke="#E0E0E0" stroke-width="1"></circle>
+<!-- Axes -->
+<g stroke="#E0E0E0" stroke-width="1">
+<line x1="200" x2="200" y1="40" y2="360"></line>
+<line x1="40" x2="360" y1="200" y2="200"></line>
+<line x1="87" x2="313" y1="87" y2="313"></line>
+<line x1="87" x2="313" y1="313" y2="87"></line>
+</g>
+<!-- Data: Industry Requirements (Yellow) -->
+<polygon fill="#fea619" fill-opacity="0.15" points="200,50 310,130 350,200 310,270 200,350 90,270 50,200 90,130" stroke="#fea619" stroke-width="2"></polygon>
+<!-- Data: Current Skills (Emerald) -->
+<polygon fill="#006c49" fill-opacity="0.3" points="200,80 280,140 250,200 240,260 200,310 120,250 80,200 130,120" stroke="#006c49" stroke-width="2"></polygon>
+<!-- Labels -->
+<g fill="#6c7a71" font-family="Inter" font-size="11" font-weight="600">
+<text text-anchor="middle" x="200" y="30">React/Next.js</text>
+<text text-anchor="start" x="320" y="120">TypeScript</text>
+<text text-anchor="start" x="370" y="205">System Design</text>
+<text text-anchor="start" x="320" y="290">Cloud Ops</text>
+<text text-anchor="middle" x="200" y="380">Unit Testing</text>
+<text text-anchor="end" x="80" y="290">CI/CD</text>
+<text text-anchor="end" x="30" y="205">Algorithms</text>
+<text text-anchor="end" x="80" y="120">UI/UX Design</text>
+</g>
+</svg>
+</div>
+</div>
+<!-- Scorecard -->
+<div class="col-span-12 lg:col-span-5 space-y-6">
+<div class="bg-surface-light border border-outline-variant p-card-padding">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Readiness Score</h3>
+<div class="flex items-center justify-between mb-2">
+<span class="font-headline-xl text-[48px] font-bold text-primary">74%</span>
+<div class="text-right">
+<p class="text-label-md font-label-md text-on-surface-variant">MATCH QUALITY</p>
+<p class="text-body-md font-body-md text-secondary font-bold">Good Match</p>
+</div>
+</div>
+<div class="w-full bg-surface-container rounded-full h-3 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 74%"></div>
+</div>
+<p class="mt-4 text-body-md font-body-md text-on-surface-variant">You are <span class="text-primary font-bold">8 skills</span> away from being a top-tier candidate for this role.</p>
+</div>
+<div class="bg-surface-light border border-outline-variant p-card-padding">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Critical Gaps</h3>
+<div class="space-y-4">
+<div class="flex items-start gap-4 p-3 bg-tertiary-container/10 border-l-4 border-tertiary">
+<span class="material-symbols-outlined text-tertiary" data-icon="warning">warning</span>
+<div>
+<p class="font-label-md text-label-md text-tertiary font-bold">HIGH PRIORITY</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold">System Design Architecture</p>
+<p class="text-label-md text-on-surface-variant">Missing project evidence of scalable systems.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-3 bg-secondary-container/10 border-l-4 border-secondary">
+<span class="material-symbols-outlined text-secondary" data-icon="error">error</span>
+<div>
+<p class="font-label-md text-label-md text-secondary font-bold">MEDIUM PRIORITY</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Cloud Infrastructure (AWS/GCP)</p>
+<p class="text-label-md text-on-surface-variant">Requires basic certification or hands-on lab experience.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Gap List Table -->
+<div class="col-span-12 bg-surface-light border border-outline-variant overflow-hidden">
+<div class="p-card-padding border-b border-outline-variant flex justify-between items-center bg-white">
+<h3 class="font-headline-md text-headline-md text-on-surface">Comprehensive Gap Analysis</h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container text-label-md font-label-md rounded-full">All Skills (12)</span>
+<span class="px-3 py-1 bg-tertiary-container/20 text-tertiary text-label-md font-label-md rounded-full">Critical (3)</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Skill Name</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Importance</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Current</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Required</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="schema">schema</span>
+</div>
+<span class="font-body-md text-body-md font-semibold">System Design</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-tertiary text-white text-[10px] font-bold rounded uppercase">High</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex gap-1">
+<div class="w-2 h-4 bg-primary"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+</div>
+<span class="font-data-tabular text-data-tabular">Beginner</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex gap-1">
+<div class="w-2 h-4 bg-secondary-container"></div>
+<div class="w-2 h-4 bg-secondary-container"></div>
+<div class="w-2 h-4 bg-secondary-container"></div>
+<div class="w-2 h-4 bg-secondary-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+</div>
+<span class="font-data-tabular text-data-tabular">Expert</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<button class="text-primary font-label-md text-label-md hover:underline flex items-center gap-1">
+                                            View Courses <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="code">code</span>
+</div>
+<span class="font-body-md text-body-md font-semibold">TypeScript</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-secondary text-white text-[10px] font-bold rounded uppercase">Medium</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex gap-1">
+<div class="w-2 h-4 bg-primary"></div>
+<div class="w-2 h-4 bg-primary"></div>
+<div class="w-2 h-4 bg-primary"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+</div>
+<span class="font-data-tabular text-data-tabular">Interm.</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex gap-1">
+<div class="w-2 h-4 bg-secondary-container"></div>
+<div class="w-2 h-4 bg-secondary-container"></div>
+<div class="w-2 h-4 bg-secondary-container"></div>
+<div class="w-2 h-4 bg-secondary-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+</div>
+<span class="font-data-tabular text-data-tabular">Expert</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<button class="text-primary font-label-md text-label-md hover:underline flex items-center gap-1">
+                                            Take Quiz <span class="material-symbols-outlined text-sm" data-icon="quiz">quiz</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="cloud">cloud</span>
+</div>
+<span class="font-body-md text-body-md font-semibold">CI/CD Pipelines</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-secondary text-white text-[10px] font-bold rounded uppercase">Medium</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex gap-1">
+<div class="w-2 h-4 bg-primary"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+</div>
+<span class="font-data-tabular text-data-tabular">None</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex gap-1">
+<div class="w-2 h-4 bg-secondary-container"></div>
+<div class="w-2 h-4 bg-secondary-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+</div>
+<span class="font-data-tabular text-data-tabular">Profic.</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<button class="text-primary font-label-md text-label-md hover:underline flex items-center gap-1">
+                                            Add project <span class="material-symbols-outlined text-sm" data-icon="add_circle">add_circle</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="bug_report">bug_report</span>
+</div>
+<span class="font-body-md text-body-md font-semibold">Unit Testing</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-outline-variant text-on-surface-variant text-[10px] font-bold rounded uppercase">Low</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex gap-1">
+<div class="w-2 h-4 bg-primary"></div>
+<div class="w-2 h-4 bg-primary"></div>
+<div class="w-2 h-4 bg-primary"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+</div>
+<span class="font-data-tabular text-data-tabular">Interm.</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex gap-1">
+<div class="w-2 h-4 bg-secondary-container"></div>
+<div class="w-2 h-4 bg-secondary-container"></div>
+<div class="w-2 h-4 bg-secondary-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+<div class="w-2 h-4 bg-surface-container"></div>
+</div>
+<span class="font-data-tabular text-data-tabular">Interm.</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-on-surface-variant font-label-md text-label-md italic">Requirement Met</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Recommended Learning Paths (Asymmetric Cards) -->
+<div class="col-span-12 lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 bg-primary p-card-padding flex flex-col md:flex-row gap-6 relative overflow-hidden group">
+<div class="flex-1 z-10">
+<h3 class="font-headline-md text-headline-md text-white mb-2">Mastering System Design</h3>
+<p class="font-body-md text-body-md text-emerald-light mb-6">This curated path will bridge your largest gap and increase your readiness by 15%.</p>
+<div class="flex gap-4">
+<div class="bg-white/10 backdrop-blur-sm p-3 border border-white/20">
+<p class="text-[10px] text-white/70 uppercase">DURATION</p>
+<p class="font-data-tabular text-white">12 Hours</p>
+</div>
+<div class="bg-white/10 backdrop-blur-sm p-3 border border-white/20">
+<p class="text-[10px] text-white/70 uppercase">OUTCOME</p>
+<p class="font-data-tabular text-white">Project Cert</p>
+</div>
+</div>
+<button class="mt-8 px-6 py-2 bg-white text-primary font-bold text-label-md hover:bg-emerald-light transition-all transform group-hover:translate-x-1">Start Path Now</button>
+</div>
+<div class="hidden md:block w-48 h-48 bg-emerald-hover/50 rounded-full blur-3xl absolute -right-10 -bottom-10 group-hover:scale-125 transition-transform duration-500"></div>
+<span class="material-symbols-outlined text-[120px] text-white/10 absolute -right-4 -top-4 pointer-events-none" data-icon="trending_up">trending_up</span>
+</div>
+<div class="bg-surface-light border border-outline-variant p-card-padding flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-4">
+<div class="w-2 h-2 bg-secondary rounded-full"></div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase">Mentorship Clip</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic mb-4">"At Google, we value T-shaped engineers. Don't just learn React; understand how the DOM reconciles under the hood."</p>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A close-up high-quality photo of a female tech mentor with a warm smile, wearing modern glasses and a casual professional blazer. She is set against a brightly lit workspace with subtle coding artifacts in the background. Professional corporate photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgbYzErsJ9y2cbG_ekn3w5vExDyzqcNDKHGgDQO-3QoLFkn6sqb5JgEO2lLmzN9KnJ4QGCHbhpZL3qQ67TzE3F8WU7ktUt0TdSrxPtgfWhSs4VIA_dJGkQRSxfScvLn_dfRoteSyPGXVkIpeKo67KkLdnEGPdgkyDSMgVdNcYU9diRXO5gdWUfRpLgnUjqXRdxFpqxeGW4DBCzbh2N0FAe-ICc_fxX-fx-trJ4rr_-DdNaTm2KcsFd"/>
+</div>
+<div>
+<p class="text-label-md font-bold">Sarah Chen</p>
+<p class="text-[10px] text-on-surface-variant">Lead Engineer @ Google</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-2 border border-primary text-primary font-bold text-label-md hover:bg-primary hover:text-white transition-colors">Book 15m Session</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Summary for Mobile -->
+<div class="md:hidden fixed bottom-0 left-0 w-full bg-surface border-t border-outline-variant p-4 flex justify-between items-center z-50">
+<div>
+<p class="text-label-md text-on-surface-variant">Current Readiness</p>
+<p class="text-headline-md text-primary font-bold">74%</p>
+</div>
+<button class="bg-primary text-white px-6 py-2 font-bold rounded">Full Plan</button>
+</div>
+</main>
+<script>
+        // Simple micro-interactions
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('click', () => {
+                // Future expansion: open detail sidebar
+            });
+        });
+
+        // Add a subtle entrance animation to the radar chart
+        window.addEventListener('load', () => {
+            const polygons = document.querySelectorAll('polygon');
+            polygons.forEach(p => {
+                p.style.transition = 'all 1s ease-out';
+                p.style.opacity = '0';
+                p.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    p.style.opacity = p.getAttribute('fill-opacity');
+                    p.style.transform = 'scale(1)';
+                }, 100);
+            });
+        });
+    </script>
+</body></html>
