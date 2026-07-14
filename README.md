@@ -78,49 +78,27 @@ Student Skill Gap Analyzer
 ---
 
 # **Teck Stack**
-
-Layer
-Technology
-Programming
-Python
-ML
-scikit-learn, CatBoost, XGBoost, LightGBM
-Data Validation
-Pandera or Great Expectations
-Data Versioning
-DVC
-Experiment Tracking
-MLflow
-Workflow Orchestration
-Apache Airflow
-API
-FastAPI
-Frontend
-React (or HTML/CSS/JavaScript )
-Database
-PostgreSQL (metadata) + MongoDB (student profiles)
-Cache (optional)
-Redis
-Authentication
-JWT
-Containerization
-Docker + Docker Compose
-CI/CD
-GitHub Actions
-Monitoring
-Prometheus + Grafana
-Drift Detection
-Evidently AI
-Explainability
-SHAP
-Code Quality
-Black, Ruff, mypy, pre-commit
-Testing
-pytest
-Documentation
-MkDocs or Sphinx
-Cloud Deployment
-Azure 
+```
+programming : Python
+ML: scikit-learn, CatBoost, XGBoost, LightGBM
+Data Validation: Pandera or Great Expectations
+Data Versioning: DVC
+Experiment Tracking: MLflow
+Workflow Orchestration: Apache Airflow
+API: FastAPI
+Frontend: or HTML/CSS/JavaScript
+Database: PostgreSQL (metadata) + MongoDB (student profiles)
+Cache (optional): Redis
+Authentication: JWT
+Containerization: Docker + Docker Compose
+CI/CD: GitHub Actions
+Monitoring: Prometheus + Grafana
+Drift Detection: Evidently AI
+Explainability: SHAP
+Code Quality: Black, Ruff, mypy, pre-commit
+Testing: pytest
+Cloud Deployment: Azure
+```
 
 ---
 
@@ -199,12 +177,6 @@ Format : json
 4. Tracking ( MLflow )
 5. Registration ( MLflow )
 6. Monitoring ( Grafana )
-
-### Training Approach 
-- Train multiple selected algorithms without any hyperparameter.
-- Select top algorithms having best performance
-- Train top selected algorithms with hyperparameters.
-- Select model having high performance with best parameters
 
 ---
 
