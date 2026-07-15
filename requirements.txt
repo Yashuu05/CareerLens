@@ -8,3 +8,6 @@ lightgbm
 xgboost
 ensure
 ollama
+pytest
+ipykernel
+seaborn

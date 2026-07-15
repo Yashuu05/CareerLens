@@ -7,12 +7,15 @@ requires-python = ">=3.10"
 dependencies = [
     "dvc>=3.67.1",
     "ensure>=1.0.4",
+    "ipykernel>=7.3.0",
     "joblib>=1.5.3",
     "lightgbm>=4.6.0",
     "mlflow>=3.14.0",
     "numpy>=2.2.6",
     "ollama>=0.6.2",
     "pandas>=2.3.3",
+    "pytest>=9.1.1",
     "scikit-learn>=1.7.2",
+    "seaborn>=0.13.2",
     "xgboost>=3.2.0",
 ]
