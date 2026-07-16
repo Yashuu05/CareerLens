@@ -12,7 +12,7 @@ def appy_preprocess(cat_cols, num_cols, data):
     df = data.copy()
     # numerical pipeline:
     num_pipeline = Pipeline(steps=[
-        ("scale", StandardScaler)
+        ("scale", StandardScaler())
     ])
 
     # categorical pipeline
