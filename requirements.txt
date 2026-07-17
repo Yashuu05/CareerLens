@@ -11,3 +11,4 @@ ollama
 pytest
 ipykernel
 seaborn
+imblearn
