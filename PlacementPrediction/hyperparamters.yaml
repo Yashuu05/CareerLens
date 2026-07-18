@@ -1,0 +1,16 @@
+random_forest:
+  n_estimators: [100, 250, 500]
+  max_depth: [5, 7, 10]
+  min_samples_split: [2, 5, 10]
+  min_samples_leaf: [1, 2, 4]
+  criterion: "entropy"
+  n_jobs: -1
+  random_state: 42
+
+logistic_regression:
+  solver: ["liblinear", "saga"]
+  penalty: ["l1", "l2"]
+  C: [0.001, 0.01, 0.1, 1, 10]
+  max_iter: [1000, 2000]
+  class_weight: ["balanced"]
+  random_state: 42

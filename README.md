@@ -156,12 +156,10 @@ Format : json
 
 ### Binary Classification Algorithms : 
 1. Logistic regression
-2. SVM
 3. Decision Tree 
 4. Random Forest
 5. LightGBM
 6. XGBoost 
-7. CatBoost 
 
 ### Performance Metrics : 
 - Accuracy score

@@ -12,3 +12,4 @@ pytest
 ipykernel
 seaborn
 imblearn
+optuna
