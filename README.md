@@ -134,22 +134,10 @@ Cloud Deployment: Azure
 Sample : 
 Generation: Synthetic
 
-Format : json
+Format : csv
 
-``` 
-{
-	“Job_profile” : “data science” 
-“Level” : “intermediate”	
-“Degree”: [“B tech”, “M Tech”, “B.E”],
-	“High_skills”: [“machine learning”, “Maths”, “python”, “statistics”, “data analysis”, “MLOPs”]
-	“Low_skills”: [“excel”, “DSA”],
-	“Soft_skills”: [“communication”, “business understanding”, “team work”],
-	“Internhips”: 2,
-	“Experience_year”: 5,
-“Cgpa”: 8.0,
-“Projects”: 10 
-}
-```
+Datasets: will be declared soon.
+
 ---
 
 # **Machine Learning**
