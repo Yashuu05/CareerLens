@@ -1,0 +1,5 @@
+outs:
+- md5: 65ddc8229ab4ba2ab98f81513a4b8ae6
+  size: 318
+  hash: md5
+  path: domains.csv
