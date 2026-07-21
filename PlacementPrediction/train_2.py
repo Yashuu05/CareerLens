@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 import os 
 import sys
 import yaml
@@ -19,7 +21,7 @@ from PlacementPrediction.ml_utils import *
 DATA_DIRECTORY = r"D:\projects\Student\dataset\processed\preprocessed_data.csv"
 HYPERPARAMETER_PATH = r"D:\projects\Student\PlacementPrediction\hyperparamters.yaml"
 
-@ensure
+#@ensure
 def read_yaml(file_path: Path) -> dict:
     """
     *Purpose*: read the yaml file (specifically hyperparameters)
@@ -189,7 +191,7 @@ if __name__ == "__main__":
         y_train=y_train,
         X_test=X_test,
         y_test=y_test,
-        trial=10
+        trial=15
     )
 
     print(f"\n Best Parameters: \n", best_params)

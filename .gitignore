@@ -17,3 +17,4 @@ logs/
 
 PlacementPrediction/mlruns/
 mlruns/
+PlacementPrediction/mlflow.db
