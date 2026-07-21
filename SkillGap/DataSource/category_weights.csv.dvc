@@ -1,0 +1,5 @@
+outs:
+- md5: 7ecc8b9d9b6fb7bc25f3878aebad7715
+  size: 791
+  hash: md5
+  path: category_weights.csv
