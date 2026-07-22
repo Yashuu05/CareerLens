@@ -15,7 +15,7 @@ def stream_response(model_nameL: str, system_prompt: str, student_data: dict) ->
     stream = chat(
         model=model_nameL,
         messages=[
-            {'role':'user', 'content': system_prompt},
+            {'role':'system', 'content': system_prompt},
             {'role': 'user',
             'content': f"Provide the detailed roadmap by analyzing given student data:\n {student_data}"}],
         stream=True,
