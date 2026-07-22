@@ -86,7 +86,7 @@ def calculate_skill_gap_for_student(domain, student_scores):
     )
     
     return {
-        'total_gap': total_gap,
+        'total_gap': float(total_gap * 100),
         'tag': tag,
         'technical_gap_percent': tech_percent,
         'technical_breakdown': tech_df,
