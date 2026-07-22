@@ -1,0 +1,5 @@
+local_llm:
+  model_name : "llama3.1:8b"
+  provider : "ollama"
+  library : "ollama"
+  developed_by : "meta"
