@@ -31,8 +31,8 @@ if __name__ == "__main__":
     if data is not None:
         print("generating LLM roadmap...\n")
         roadmap_generator(data_of_student=data)
-        print(f"Following is the list of courses for {domain} you can persue to learn industry skills.")
-        for i in range(len(course_lst)):
-            print(f"{i+1}. Title: {course_lst[i]['title']}\nURL: {course_lst[i]['url']}\n\n")
+        #print(f"Following is the list of courses for {domain} you can persue to learn industry skills.")
+        #for i in range(len(course_lst)):
+        #    print(f"{i+1}. Title: {course_lst[i]['title']}\nURL: {course_lst[i]['url']}\n\n")
     else:
         print("Student Data is None. Failed to load data.")
