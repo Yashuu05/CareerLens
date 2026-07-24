@@ -13,3 +13,4 @@ ipykernel
 seaborn
 imblearn
 optuna
+tavily-python

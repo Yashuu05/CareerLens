@@ -1,0 +1,112 @@
+{
+    "total_gap": 56.260869565217384,
+    "tag": "beginner",
+    "technical_gap_percent": 63.913043478260846,
+    "technical_breakdown": [
+        {
+            "skill": "python",
+            "gap": 0.06521739130434781
+        },
+        {
+            "skill": "java",
+            "gap": 0.0217391304347826
+        },
+        {
+            "skill": "javascript",
+            "gap": 0.0108695652173913
+        },
+        {
+            "skill": "html_css",
+            "gap": 0.0
+        },
+        {
+            "skill": "react",
+            "gap": 0.0
+        },
+        {
+            "skill": "nodejs",
+            "gap": 0.0
+        },
+        {
+            "skill": "sql",
+            "gap": 0.0543478260869565
+        },
+        {
+            "skill": "machine_learning",
+            "gap": 0.11739130434782603
+        },
+        {
+            "skill": "deep_learning",
+            "gap": 0.08152173913043476
+        },
+        {
+            "skill": "data_visualization",
+            "gap": 0.0652173913043478
+        },
+        {
+            "skill": "statistics",
+            "gap": 0.0869565217391304
+        },
+        {
+            "skill": "docker",
+            "gap": 0.0326086956521739
+        },
+        {
+            "skill": "kubernetes",
+            "gap": 0.0217391304347826
+        },
+        {
+            "skill": "aws",
+            "gap": 0.0217391304347826
+        },
+        {
+            "skill": "git",
+            "gap": 0.02717391304347825
+        },
+        {
+            "skill": "linux",
+            "gap": 0.0326086956521739
+        }
+    ],
+    "category_gap_breakdown": [
+        {
+            "category": "aptitude",
+            "category_gap": 0.5
+        },
+        {
+            "category": "projects",
+            "category_gap": 0.25
+        },
+        {
+            "category": "internship",
+            "category_gap": 1.0
+        },
+        {
+            "category": "soft_skill",
+            "category_gap": 0.5
+        }
+    ],
+    "overall_results": [
+        {
+            "gap_category": "technical",
+            "gap_value": 0.2876086956521738
+        },
+        {
+            "gap_category": "aptitude",
+            "gap_value": 0.075
+        },
+        {
+            "gap_category": "projects",
+            "gap_value": 0.05
+        },
+        {
+            "gap_category": "internship",
+            "gap_value": 0.1
+        },
+        {
+            "gap_category": "soft_skill",
+            "gap_value": 0.05
+        }
+    ],
+    "target_domain": "data science"
+}
