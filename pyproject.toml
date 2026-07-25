@@ -16,6 +16,7 @@ dependencies = [
     "ollama>=0.6.2",
     "optuna>=4.9.0",
     "pandas>=2.3.3",
+    "pymongo[srv]>=4.17.0",
     "pytest>=9.1.1",
     "scikit-learn>=1.7.2",
     "seaborn>=0.13.2",

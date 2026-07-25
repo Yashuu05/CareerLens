@@ -15,3 +15,4 @@ imblearn
 optuna
 tavily-python
 uvicorn
+pymongo
