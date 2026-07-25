@@ -1,0 +1,70 @@
+{% extends "auth_base.html" %}
+
+{% block title %}Sign Up | CareerLens{% endblock %}
+{% block subtitle %}Create a new account{% endblock %}
+
+{% block content %}
+<form action="/signup" method="POST">
+    <div class="grid grid-cols-2" style="gap: 1rem;">
+        <div class="form-group" style="margin-bottom: 0;">
+            <label for="first_name" class="form-label">First Name</label>
+            <input type="text" id="first_name" name="first_name" class="form-control" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+            <label for="last_name" class="form-label">Last Name <span class="text-secondary" style="font-weight:normal; font-size:0.75rem;">(Optional)</span></label>
+            <input type="text" id="last_name" name="last_name" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group mt-2" style="margin-top: 1rem;">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="example@gmail.com" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" name="password" class="form-control" minlength="9" placeholder="More than 8 characters" required>
+    </div>
+
+    <div class="grid grid-cols-2" style="gap: 1rem;">
+        <div class="form-group" style="margin-bottom: 0;">
+            <label for="age" class="form-label">Age</label>
+            <input type="number" id="age" name="age" class="form-control" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+            <label for="country" class="form-label">Country</label>
+            <input type="text" id="country" name="country" class="form-control" required>
+        </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 1rem;">
+        <label for="degree" class="form-label">Degree</label>
+        <select id="degree" name="degree" class="form-control" required>
+            <option value="" disabled selected>Select your degree</option>
+            <option value="B.E">B.E</option>
+            <option value="B.Tech">B.Tech</option>
+            <option value="Diploma">Diploma</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="course" class="form-label">Course</label>
+        <select id="course" name="course" class="form-control" required>
+            <option value="" disabled selected>Select your course</option>
+            <option value="Computer Science Engineering">Computer Science Engineering</option>
+            <option value="IT">IT</option>
+            <option value="AI and Data Science">AI and Data Science</option>
+            <option value="Electronics and Communication">Electronics and Communication</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+        </select>
+    </div>
+    
+    <div class="form-group" style="margin-top: 1.5rem;">
+        <button type="submit" class="btn-primary w-100" style="width: 100%;">Create Account</button>
+    </div>
+</form>
+
+<div class="text-center mt-4" style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem;">
+    <p class="text-secondary">Already have an account? <a href="/" style="font-weight: 600;">Sign In</a></p>
+</div>
+{% endblock %}

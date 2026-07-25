@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CareerLens - Authentication{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        .auth-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 450px;
+            padding: 2rem;
+            margin: 1rem;
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .auth-header i {
+            width: 48px;
+            height: 48px;
+            color: var(--primary-emerald);
+            margin-bottom: 1rem;
+        }
+        .error-message {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger-red);
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            text-align: center;
+            border: 1px solid var(--danger-red);
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <i data-feather="compass"></i>
+                <h2>CareerLens</h2>
+                <p class="text-secondary">{% block subtitle %}{% endblock %}</p>
+            </div>
+            {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- Initialize Icons -->
+    <script>
+      feather.replace()
+    </script>
+</body>
+</html>

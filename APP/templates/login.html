@@ -1,0 +1,26 @@
+{% extends "auth_base.html" %}
+
+{% block title %}Login | CareerLens{% endblock %}
+{% block subtitle %}Sign in to your account{% endblock %}
+
+{% block content %}
+<form action="/login" method="POST">
+    <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="example@gmail.com" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+    </div>
+    
+    <div class="form-group mt-4">
+        <button type="submit" class="btn-primary w-100" style="width: 100%;">Sign In</button>
+    </div>
+</form>
+
+<div class="text-center mt-4" style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem;">
+    <p class="text-secondary">Don't have an account? <a href="/signup" style="font-weight: 600;">Sign Up</a></p>
+</div>
+{% endblock %}

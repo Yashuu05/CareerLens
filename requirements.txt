@@ -16,3 +16,4 @@ optuna
 tavily-python
 uvicorn
 pymongo
+python-multipart
