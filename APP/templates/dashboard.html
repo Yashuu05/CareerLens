@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | CareerLens{% endblock %}
+{% block breadcrumb %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h1>Welcome back, {{ user_name }}!</h1>
+    <p class="text-secondary">Here's an overview of your academic and career standing. Current CGPA: <strong>8.5</strong> | Branch: <strong>Computer Science</strong></p>
+</div>
+
+<div class="grid grid-cols-3 mb-4">
+    <!-- Probability Card -->
+    <div class="card flex flex-col items-center justify-center text-center">
+        <h3 class="metric-label">Placement Probability</h3>
+        <div style="position: relative; width: 120px; height: 120px; margin: 1rem 0;">
+            <!-- Dummy SVG Gauge -->
+            <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;">
+                <path style="fill:none; stroke:var(--border-color); stroke-width:3"
+                    d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path style="fill:none; stroke:var(--primary-emerald); stroke-width:3; stroke-dasharray: 85, 100"
+                    d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831" />
+            </svg>
+            <div style="position: absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-weight:700; font-size:1.5rem;">
+                85%
+            </div>
+        </div>
+        <p class="text-success" style="font-weight:600; font-size:0.875rem;"><i data-feather="trending-up" style="width:16px; height:16px;"></i> High Chance</p>
+    </div>
+
+    <!-- Skill Gaps Card -->
+    <div class="card flex flex-col items-center justify-center text-center">
+        <h3 class="metric-label">Identified Skill Gaps</h3>
+        <div class="metric-value mb-1">4</div>
+        <p class="text-secondary" style="font-size:0.875rem;">Action needed to bridge gaps</p>
+        <a href="/skill_gap" class="btn-primary mt-2" style="margin-top:1rem; padding: 0.5rem 1rem; font-size:0.875rem;">View Gaps</a>
+    </div>
+
+    <!-- Roadmap Milestone Card -->
+    <div class="card flex flex-col justify-center">
+        <h3 class="metric-label">Next Milestone</h3>
+        <h2 style="font-size:1.25rem;" class="mb-1">Complete System Design Fundamentals</h2>
+        <p class="text-secondary mb-2" style="font-size:0.875rem;">Estimated time: 2 weeks</p>
+        
+        <!-- Progress bar -->
+        <div style="width:100%; height:8px; background:var(--border-color); border-radius:4px; margin-bottom:1rem; overflow:hidden;">
+            <div style="width:60%; height:100%; background:var(--primary-emerald);"></div>
+        </div>
+        
+        <a href="/roadmap" style="font-weight:600; display:flex; align-items:center; gap:0.5rem; font-size:0.875rem;">
+            Continue Roadmap <i data-feather="arrow-right" style="width:16px; height:16px;"></i>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <h2 class="mb-2">Recent Activity</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Completed React.js course</td>
+                    <td class="text-secondary">2 days ago</td>
+                    <td><span class="tag tag-low">Completed</span></td>
+                </tr>
+                <tr>
+                    <td>Updated DSA score</td>
+                    <td class="text-secondary">5 days ago</td>
+                    <td><span class="tag tag-medium">Reviewed</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Skill Gap Analyzer | CareerLens{% endblock %}
+{% block breadcrumb %}Skill Gap Analyzer{% endblock %}
+
+{% block content %}
+<div class="mb-4 flex justify-between items-center">
+    <div>
+        <h1>Skill Gap Analyzer</h1>
+        <p class="text-secondary">Compare your current skills with industry requirements for Software Engineering.</p>
+    </div>
+    <button class="btn-primary">Update Profile</button>
+</div>
+
+<div class="grid grid-cols-3 mb-4">
+    <!-- Comparison View (Radar Chart Placeholder) -->
+    <div class="card" style="grid-column: span 1;">
+        <h2 class="mb-2">Skill Alignment</h2>
+        <div style="aspect-ratio: 1; border: 1px dashed var(--border-color); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--text-secondary); margin:2rem;">
+            [Radar Chart SVG]
+        </div>
+        <p class="text-center text-secondary" style="font-size:0.875rem;">Overall Match: <strong>72%</strong></p>
+    </div>
+
+    <!-- Gap List -->
+    <div class="card" style="grid-column: span 2;">
+        <h2 class="mb-2">Identified Gaps</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Skill Name</th>
+                        <th>Importance</th>
+                        <th>Current Level</th>
+                        <th>Required Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight:600;">System Design</td>
+                        <td><span class="tag tag-high">High</span></td>
+                        <td>Beginner</td>
+                        <td>Advanced</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:600;">Cloud Native (AWS/GCP)</td>
+                        <td><span class="tag tag-medium">Medium</span></td>
+                        <td>None</td>
+                        <td>Intermediate</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:600;">React.js</td>
+                        <td><span class="tag tag-low">Low</span></td>
+                        <td>Intermediate</td>
+                        <td>Advanced</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="mt-4" style="margin-top:2rem;">
+            <h3 class="mb-1">Recommended Actions</h3>
+            <div style="padding:1rem; border-left: 3px solid var(--primary-emerald); background:var(--bg-color); border-radius:0 4px 4px 0;">
+                <p style="font-size:0.875rem;">Focus on <strong>System Design</strong> first. It is a high-importance skill where you have the largest gap. Check the roadmap for curated resources.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

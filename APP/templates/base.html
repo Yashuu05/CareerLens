@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CareerLens{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i data-feather="compass"></i>
+                <span>CareerLens</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-link {% if active_page == 'dashboard' %}active{% endif %}">
+                    <i data-feather="activity"></i> Dashboard
+                </a>
+                <a href="/prediction" class="nav-link {% if active_page == 'prediction' %}active{% endif %}">
+                    <i data-feather="clock"></i> Prediction
+                </a>
+                <a href="/skill_gap" class="nav-link {% if active_page == 'skill_gap' %}active{% endif %}">
+                    <i data-feather="bar-chart-2"></i> Skill Gap
+                </a>
+                <a href="/roadmap" class="nav-link {% if active_page == 'roadmap' %}active{% endif %}">
+                    <i data-feather="map-pin"></i> Roadmap
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <div class="breadcrumbs">
+                        <span>CareerLens</span> / <span style="font-weight:600; color:var(--text-primary);">{% block breadcrumb %}{% endblock %}</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
+                        <i data-feather="moon"></i>
+                    </button>
+                    <div class="user-profile" style="width:32px; height:32px; background:var(--primary-emerald); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-weight:600;">
+                        {{ user_name[0] }}
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Initialize Icons -->
+    <script>
+      feather.replace()
+    </script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

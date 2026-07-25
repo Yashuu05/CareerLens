@@ -14,3 +14,4 @@ seaborn
 imblearn
 optuna
 tavily-python
+uvicorn
