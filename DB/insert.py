@@ -1,5 +1,3 @@
-from pymongo import MongoClient
-from pymongo.server_api import ServerApi
 import os 
 import sys
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

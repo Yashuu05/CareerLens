@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerLens - Your Path to Tech Success</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/landing.css') }}">
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                CareerLens
+            </a>
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="/login" class="btn-signin">Sign In</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Master Your Engineering Journey</h1>
+            <p>CareerLens is an enterprise-grade platform designed to guide B.Tech students through placement preparation. Discover your skill gaps, get personalized roadmaps, and predict your success.</p>
+            <div class="hero-actions">
+                <a href="/signup" class="btn-primary">Get Started</a>
+                <a href="#about" class="btn-secondary">Learn More</a>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="section-container">
+                <h2 class="section-title">About CareerLens</h2>
+                <div class="about-content">
+                    <p>Designed specifically for computer engineering students, CareerLens bridges the gap between academic curriculum and industry expectations.</p>
+                    <p>We analyze your current profile, from DSA skills to project experience, providing actionable insights that give you a competitive edge in today's tech placement landscape.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="features">
+            <div class="section-container">
+                <h2 class="section-title">Core Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                        <h3>Dashboard Analytics</h3>
+                        <p>Get a comprehensive view of your academic standing and placement readiness in one intuitive dashboard.</p>
+                    </div>
+                    <div class="feature-card">
+                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 20v-6M6 20V10M18 20V4"></path>
+                        </svg>
+                        <h3>Skill Gap Analyzer</h3>
+                        <p>Identify precisely which industry-required skills you're missing and discover how to acquire them effectively.</p>
+                    </div>
+                    <div class="feature-card">
+                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <h3>Personalized Roadmaps</h3>
+                        <p>Follow a step-by-step path tailored to your specific goals, ensuring you are always moving forward.</p>
+                    </div>
+                    <div class="feature-card">
+                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12h20M12 2v20"></path>
+                        </svg>
+                        <h3>Placement Prediction</h3>
+                        <p>Leverage our advanced models to gauge your probability of landing your dream role based on your current profile.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works">
+            <div class="section-container">
+                <h2 class="section-title">How It Works</h2>
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">01</div>
+                        <div class="step-content">
+                            <h3>Create Your Profile</h3>
+                            <p>Input your current academic details, skills, and past experiences to build a comprehensive baseline.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">02</div>
+                        <div class="step-content">
+                            <h3>Analyze Your Standing</h3>
+                            <p>Our engine evaluates your profile against industry standards to pinpoint strengths and areas for improvement.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-content">
+                            <h3>Follow The Roadmap</h3>
+                            <p>Execute the personalized action plan provided by CareerLens to systematically enhance your employability.</p>
+                        </div>
+                        <div class="step-number">03</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">CareerLens</div>
+            <p>Empowering B.Tech students to achieve their career goals.</p>
+            <div class="footer-links">
+                <a href="#about">About</a>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="/login">Sign In</a>
+            </div>
+            <p style="margin-top: 2rem; font-size: 0.875rem; color: #6B7280;">&copy; 2026 CareerLens. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

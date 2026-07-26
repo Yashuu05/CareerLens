@@ -17,3 +17,5 @@ tavily-python
 uvicorn
 pymongo
 python-multipart
+pwdlib
+pyjwt

@@ -14,6 +14,14 @@ templates = Jinja2Templates(directory="templates")
 
 # defining api endpoints
 @app.get("/", response_class=HTMLResponse)
+async def read_index(request: Request):
+    return templates.TemplateResponse(
+        request=request, 
+        name="index.html", 
+        context={"active_page": "home"}
+    )
+
+@app.get("/login", response_class=HTMLResponse)
 async def read_login(request: Request):
     return templates.TemplateResponse(
         request=request, 
