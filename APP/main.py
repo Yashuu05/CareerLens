@@ -2,9 +2,17 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-
+import os 
+import sys
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if not project_root in sys.path:
+    sys.path.insert(0, project_root)
 # creating app
 app = FastAPI()
+
+# Include the JWT authentication router
+from APP.auth.router import router as auth_router
+app.include_router(auth_router)
 
 # Mount static files directory (CSS, JS, Images)
 app.mount("/static", StaticFiles(directory="static"), name="static")

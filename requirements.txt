@@ -19,3 +19,4 @@ pymongo
 python-multipart
 pwdlib
 pyjwt
+pwdlib[argon2]
