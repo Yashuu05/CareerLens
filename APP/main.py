@@ -39,8 +39,23 @@ async def read_login(request: Request):
 
 @app.post("/login", response_class=HTMLResponse)
 async def do_login(request: Request, email: str = Form(...), password: str = Form(...)):
-    if email == "yash@gmail.com" and password == "yash123":
-        return RedirectResponse(url="/dashboard", status_code=302)
+    from DB.create_db import get_database
+    from APP.auth.utils import verify_password, create_access_token
+    from APP.auth.router import ACCESS_TOKEN_EXPIRE_MINUTES
+    from datetime import timedelta
+    
+    db = get_database()
+    user = db["students"].find_one({"email": email})
+    
+    if user and verify_password(password, user.get("password_hash", "")):
+        response = RedirectResponse(url="/dashboard", status_code=302)
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = create_access_token(
+            data={"sub": user["email"]}, expires_delta=access_token_expires
+        )
+        response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True)
+        return response
+        
     return templates.TemplateResponse(
         request=request, 
         name="login.html", 
