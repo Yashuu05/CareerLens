@@ -3,141 +3,407 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CareerLens - Your Path to Tech Success</title>
+    <title>CareerLens - AI Career Coach for Engineering Students</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/landing.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/landing.css') }}?v=2.0">
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
-    <header>
+    <div class="bg-effects"></div>
+    <div class="bg-grid"></div>
+
+    <header id="navbar">
         <div class="nav-container">
             <a href="/" class="logo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
+                <i data-feather="compass"></i>
                 CareerLens
             </a>
             <nav class="nav-links">
-                <a href="#about">About</a>
                 <a href="#features">Features</a>
                 <a href="#how-it-works">How It Works</a>
-                <a href="/login" class="btn-signin">Sign In</a>
+                <a href="#faq">FAQ</a>
+                <a href="/login" class="btn-secondary">Sign In</a>
+                <a href="/signup" class="btn-primary">Get Started</a>
             </nav>
         </div>
     </header>
 
     <main>
+        <!-- Split Hero Section -->
         <section class="hero">
-            <h1>Master Your Engineering Journey</h1>
-            <p>CareerLens is an enterprise-grade platform designed to guide B.Tech students through placement preparation. Discover your skill gaps, get personalized roadmaps, and predict your success.</p>
-            <div class="hero-actions">
-                <a href="/signup" class="btn-primary">Get Started</a>
-                <a href="#about" class="btn-secondary">Learn More</a>
-            </div>
-        </section>
+            <div class="hero-left">
+                <h1>AI Career Coach<br>for Computer Engineering Students</h1>
+                
+                <div class="hero-benefits">
+                    <div><i data-feather="check-circle"></i> Predict placements.</div>
+                    <div><i data-feather="check-circle"></i> Identify missing skills.</div>
+                    <div><i data-feather="check-circle"></i> Generate AI roadmaps.</div>
+                    <div><i data-feather="check-circle"></i> Track your growth.</div>
+                </div>
 
-        <section id="about">
-            <div class="section-container">
-                <h2 class="section-title">About CareerLens</h2>
-                <div class="about-content">
-                    <p>Designed specifically for computer engineering students, CareerLens bridges the gap between academic curriculum and industry expectations.</p>
-                    <p>We analyze your current profile, from DSA skills to project experience, providing actionable insights that give you a competitive edge in today's tech placement landscape.</p>
+                <div class="hero-actions">
+                    <a href="/signup" class="btn-primary">
+                        Get Started <i data-feather="arrow-right"></i>
+                    </a>
+                    <a href="#demo" class="btn-secondary">
+                        <i data-feather="play-circle"></i> Watch Demo
+                    </a>
+                </div>
+
+                <div class="trust-badges">
+                    <span class="badge"><i data-feather="check"></i> Personalized</span>
+                    <span class="badge"><i data-feather="check"></i> AI Powered</span>
+                    <span class="badge"><i data-feather="check"></i> Data Driven</span>
+                    <span class="badge"><i data-feather="check"></i> Engineering Focused</span>
+                </div>
+            </div>
+            
+            <div class="hero-right">
+                <div class="floating-cards">
+                    <!-- Floating Card 1 -->
+                    <div class="glass-card float-card fc-1">
+                        <div class="fc-title">Placement Prediction</div>
+                        <div class="fc-value">87%</div>
+                        <div class="fc-subtitle">Probability</div>
+                        <div class="fc-bar-bg">
+                            <div class="fc-bar-fill" style="width: 87%"></div>
+                        </div>
+                    </div>
+                    <!-- Floating Card 2 -->
+                    <div class="glass-card float-card fc-2">
+                        <div class="fc-title">Skill Gap</div>
+                        <div class="fc-tags">
+                            <span class="fc-tag">React</span>
+                            <span class="fc-tag">Docker</span>
+                            <span class="fc-tag">System Design</span>
+                        </div>
+                    </div>
+                    <!-- Floating Card 3 -->
+                    <div class="glass-card float-card fc-3">
+                        <div class="fc-title">AI Roadmap</div>
+                        <div style="margin-top:0.5rem; display:flex; gap:1rem; align-items:center;">
+                            <div style="background:var(--primary-color); width:12px; height:12px; border-radius:50%;"></div>
+                            <span style="font-weight:600;">Week 1: DSA Arrays</span>
+                        </div>
+                        <div style="margin-top:0.5rem; display:flex; gap:1rem; align-items:center;">
+                            <div style="background:var(--accent-color); width:12px; height:12px; border-radius:50%;"></div>
+                            <span style="font-weight:600;">Week 2: OOP</span>
+                        </div>
+                    </div>
+                    <!-- Floating Card 4 -->
+                    <div class="glass-card float-card fc-4">
+                        <div class="fc-title">Progress</div>
+                        <div class="fc-value">82%</div>
+                        <div class="fc-subtitle">Completed</div>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- Social Proof Section -->
+        <section class="social-proof">
+            <div class="sp-container">
+                <div class="sp-title">Designed for</div>
+                <div class="sp-icons">
+                    <div class="sp-item"><i data-feather="users"></i> Computer Engineering Students</div>
+                    <div class="sp-item"><i data-feather="briefcase"></i> Placement Preparation</div>
+                    <div class="sp-item"><i data-feather="cpu"></i> Industry Skills</div>
+                    <div class="sp-item"><i data-feather="trending-up"></i> Career Growth</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section id="problem">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Why Students Struggle During Placements</h2>
+                    <p class="section-subtitle">The traditional approach leaves you guessing. It's time for a smarter way.</p>
+                </div>
+
+                <div class="problem-grid">
+                    <div class="problem-card">
+                        <div class="p-icon bad"><i data-feather="x"></i></div>
+                        <div class="p-text">
+                            <h3>Random learning</h3>
+                            <p>Studying without a clear focus on what companies actually want.</p>
+                        </div>
+                    </div>
+                    <div class="problem-card">
+                        <div class="p-icon bad"><i data-feather="x"></i></div>
+                        <div class="p-text">
+                            <h3>Unknown skill gaps</h3>
+                            <p>Failing interviews because you didn't know what you didn't know.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="arrow-divider">
+                        <span>CareerLens</span>
+                        <i data-feather="arrow-down"></i>
+                    </div>
+
+                    <div class="problem-card solution">
+                        <div class="p-icon good"><i data-feather="check"></i></div>
+                        <div class="p-text">
+                            <h3>AI Roadmap Tailored to Your Current Skills</h3>
+                            <p>Step-by-step guidance based on your exact profile.</p>
+                        </div>
+                    </div>
+                    <div class="problem-card solution">
+                        <div class="p-icon good"><i data-feather="check"></i></div>
+                        <div class="p-text">
+                            <h3>Discover Exactly What Companies Expect</h3>
+                            <p>Identify missing skills before the interview.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Features (Bento Grid) -->
         <section id="features">
             <div class="section-container">
-                <h2 class="section-title">Core Features</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                        </svg>
-                        <h3>Dashboard Analytics</h3>
-                        <p>Get a comprehensive view of your academic standing and placement readiness in one intuitive dashboard.</p>
+                <div class="section-header">
+                    <h2 class="section-title">Everything You Need to Succeed</h2>
+                    <p class="section-subtitle">An intelligent platform designed to maximize your placement probability.</p>
+                </div>
+
+                <div class="bento-grid">
+                    <!-- Large Card: Placement Prediction -->
+                    <div class="glass-card bento-item bento-large">
+                        <div class="bento-icon"><i data-feather="pie-chart"></i></div>
+                        <h3>Know Your Placement Readiness Before Interviews</h3>
+                        <p>ML powered prediction that calculates your probability of landing a role based on real industry data.</p>
+                        <div class="bento-visual" style="margin-top:auto;">
+                            <div class="bv-row">
+                                <span class="bv-label">Prediction Score</span>
+                                <span class="bv-value">84%</span>
+                            </div>
+                            <div class="fc-bar-bg" style="margin: 0.5rem 0 1.5rem;">
+                                <div class="fc-bar-fill" style="width: 84%"></div>
+                            </div>
+                            <div class="bv-row"><span class="bv-label">Top Strength</span> <span class="bv-value">Python</span></div>
+                            <div class="bv-row"><span class="bv-label">Needs Work</span> <span style="font-weight:700; color:var(--danger)">SQL</span></div>
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 20v-6M6 20V10M18 20V4"></path>
-                        </svg>
-                        <h3>Skill Gap Analyzer</h3>
-                        <p>Identify precisely which industry-required skills you're missing and discover how to acquire them effectively.</p>
+
+                    <!-- Tall Card: Skill Gap -->
+                    <div class="glass-card bento-item bento-tall">
+                        <div class="bento-icon"><i data-feather="target"></i></div>
+                        <h3>Skill Gap Analysis</h3>
+                        <p>Compare your skills against industry standards. Discover missing skills and get actionable recommendations.</p>
+                        <div class="bento-visual" style="margin-top:auto;">
+                            <div style="font-weight:600; margin-bottom:1rem;">React</div>
+                            <div class="fc-bar-bg" style="margin-top:0;"><div class="fc-bar-fill" style="width: 95%; background: var(--success);"></div></div>
+                            <div style="font-weight:600; margin-bottom:1rem; margin-top:1.5rem;">Docker</div>
+                            <div class="fc-bar-bg" style="margin-top:0;"><div class="fc-bar-fill" style="width: 22%; background: var(--danger);"></div></div>
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        <h3>Personalized Roadmaps</h3>
-                        <p>Follow a step-by-step path tailored to your specific goals, ensuring you are always moving forward.</p>
+
+                    <!-- Wide Card: Roadmap -->
+                    <div class="glass-card bento-item bento-wide">
+                        <div class="bento-icon"><i data-feather="map"></i></div>
+                        <h3>Roadmap Generation</h3>
+                        <p>Get a personalized timeline with milestones, resources, and weekly goals.</p>
+                        <div class="bento-visual" style="display:flex; justify-content:space-between; align-items:center;">
+                            <div><span style="color:var(--text-secondary)">Week 1</span><br><b>DSA</b></div>
+                            <i data-feather="arrow-right" style="color:var(--border-color)"></i>
+                            <div><span style="color:var(--text-secondary)">Week 2</span><br><b>OOP</b></div>
+                            <i data-feather="arrow-right" style="color:var(--border-color)"></i>
+                            <div><span style="color:var(--text-secondary)">Week 3</span><br><b>React</b></div>
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M2 12h20M12 2v20"></path>
-                        </svg>
-                        <h3>Placement Prediction</h3>
-                        <p>Leverage our advanced models to gauge your probability of landing your dream role based on your current profile.</p>
+
+                    <!-- Standard Card -->
+                    <div class="glass-card bento-item">
+                        <div class="bento-icon"><i data-feather="activity"></i></div>
+                        <h3>Track Your Placement Journey</h3>
+                        <p>Monitor your improvements and achievements visually.</p>
+                    </div>
+
+                    <!-- Standard Card -->
+                    <div class="glass-card bento-item">
+                        <div class="bento-icon"><i data-feather="file-text"></i></div>
+                        <h3>Resume Insights</h3>
+                        <p>Coming Soon. ATS scoring and automated feedback.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="how-it-works">
+        <!-- Interactive Demo / How it Works -->
+        <section id="how-it-works" style="background: rgba(255,255,255,0.3); backdrop-filter: blur(10px);">
             <div class="section-container">
-                <h2 class="section-title">How It Works</h2>
-                <div class="steps-container">
-                    <div class="step">
-                        <div class="step-number">01</div>
-                        <div class="step-content">
-                            <h3>Create Your Profile</h3>
-                            <p>Input your current academic details, skills, and past experiences to build a comprehensive baseline.</p>
-                        </div>
+                <div class="section-header">
+                    <h2 class="section-title">See CareerLens in Action</h2>
+                    <p class="section-subtitle">From profile creation to placement readiness.</p>
+                </div>
+
+                <div class="timeline" id="demo">
+                    <div class="timeline-step">
+                        <div class="t-icon"><i data-feather="user"></i></div>
+                        <h3>Create Profile</h3>
+                        <p>Enter your CGPA, Projects, and DSA skills.</p>
                     </div>
-                    <div class="step">
-                        <div class="step-number">02</div>
-                        <div class="step-content">
-                            <h3>Analyze Your Standing</h3>
-                            <p>Our engine evaluates your profile against industry standards to pinpoint strengths and areas for improvement.</p>
-                        </div>
+                    <div class="timeline-step">
+                        <div class="t-icon"><i data-feather="cpu"></i></div>
+                        <h3>Analyze Skills</h3>
+                        <p>Our engine identifies your skill gaps.</p>
                     </div>
-                    <div class="step">
-                        <div class="step-content">
-                            <h3>Follow The Roadmap</h3>
-                            <p>Execute the personalized action plan provided by CareerLens to systematically enhance your employability.</p>
-                        </div>
-                        <div class="step-number">03</div>
+                    <div class="timeline-step">
+                        <div class="t-icon"><i data-feather="pie-chart"></i></div>
+                        <h3>AI Prediction</h3>
+                        <p>Calculate your placement probability.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="t-icon"><i data-feather="trending-up"></i></div>
+                        <h3>Track Progress</h3>
+                        <p>Follow the AI roadmap and improve.</p>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                </div>
+
+                <div class="faq-grid">
+                    <div class="glass-card faq-item">
+                        <div class="faq-question">
+                            Is CareerLens free?
+                            <i data-feather="chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Yes! The core platform is completely free for all engineering students.
+                        </div>
+                    </div>
+                    <div class="glass-card faq-item">
+                        <div class="faq-question">
+                            How accurate is the prediction?
+                            <i data-feather="chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Our ML models are trained on real placement data, giving a highly accurate probability based on historical trends and current industry demands.
+                        </div>
+                    </div>
+                    <div class="glass-card faq-item">
+                        <div class="faq-question">
+                            Which students can use it?
+                            <i data-feather="chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Built for Third Year, Final Year, placement aspirants, and freshers looking to upskill.
+                        </div>
+                    </div>
+                    <div class="glass-card faq-item">
+                        <div class="faq-question">
+                            Can my roadmap change?
+                            <i data-feather="chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Absolutely. As you update your profile with new skills and completed modules, your AI roadmap dynamically adapts to your new baseline.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="section-container">
+                <h2>Ready to Build<br>Your Dream Career?</h2>
+                <a href="/signup" class="btn-primary">
+                    Start Your AI Career Analysis <i data-feather="arrow-right"></i>
+                </a>
             </div>
         </section>
     </main>
 
+    <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-logo">CareerLens</div>
-            <p>Empowering B.Tech students to achieve their career goals.</p>
-            <div class="footer-links">
-                <a href="#about">About</a>
-                <a href="#features">Features</a>
-                <a href="#how-it-works">How It Works</a>
-                <a href="/login">Sign In</a>
+        <div class="footer-grid">
+            <div class="f-brand">
+                <h3><i data-feather="compass"></i> CareerLens</h3>
+                <p>Empowering B.Tech students to achieve their career goals with AI-driven insights and personalized roadmaps.</p>
             </div>
-            <p style="margin-top: 2rem; font-size: 0.875rem; color: #6B7280;">&copy; 2026 CareerLens. All rights reserved.</p>
+            <div>
+                <div class="f-title">Quick Links</div>
+                <ul class="f-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="/login">Sign In</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="f-title">Resources</div>
+                <ul class="f-links">
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Guides</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="f-title">Legal</div>
+                <ul class="f-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="https://github.com/Yashuu05/CareerLens">GitHub</a></li>
+                    <li><span style="color: #6B7280; font-size: 0.9rem;">Version 2.0</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 CareerLens. All rights reserved.
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script>
-        // Smooth scrolling for anchor links
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Sticky Navbar Glass Effect
+        const header = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                // Close all
+                document.querySelectorAll('.faq-item').forEach(faq => faq.classList.remove('active'));
+                // Toggle clicked
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
     </script>
