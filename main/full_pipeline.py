@@ -96,7 +96,7 @@ if __name__ == "__main__":
             linux = int(input("enter Linux score(1-5) = "))
             communication = int(input("enter Communication score(1-5) = "))
             aptitude = int(input("enter aptitude score(1-5) = "))
-            projects = int(input("enter no. Project score = "))
+            projects = int(input("enter no. Projects = "))
             inernsihip = int(input("enter No. Internships = "))
 
             # create the dictionary

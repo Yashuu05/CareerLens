@@ -4,14 +4,123 @@
 {% block breadcrumb %}Skill Gap Analyzer{% endblock %}
 
 {% block content %}
-<div class="mb-4 flex justify-between items-center">
-    <div>
-        <h1>Skill Gap Analyzer</h1>
-        <p class="text-secondary">Compare your current skills with industry requirements for Software Engineering.</p>
-    </div>
-    <button class="btn-primary">Update Profile</button>
+<div class="mb-4">
+    <h1>Skill Gap Analyzer</h1>
+    <p class="text-secondary">Enter your current skills to compare with industry requirements for your target domain.</p>
 </div>
 
+<!-- Input Form Section -->
+<div class="card mb-4" style="width: 100%;">
+    <h2 class="mb-2">Your Profile & Skills</h2>
+    <form action="#" method="POST" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        
+        <div class="form-group" style="grid-column: span 2;">
+            <label class="form-label" for="target_domain">Target Domain</label>
+            <select id="target_domain" name="target_domain" class="form-control" required>
+                <option value="AI Engineering">AI Engineering</option>
+                <option value="Backend Development">Backend Development</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Data Analytics">Data Analytics</option>
+                <option value="DevOps Engineering">DevOps Engineering</option>
+                <option value="Cyber Security">Cyber Security</option>
+                <option value="Cloud Computing">Cloud Computing</option>
+                <option value="Machine Learning">Machine Learning</option>
+                <option value="Frontend Development">Frontend Development</option>
+                <option value="Full Stack Development">Full Stack Development</option>
+                <option value="Software Engineering">Software Engineering</option>
+                <option value="Web Development">Web Development</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="python">Python (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="python" name="python" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="java">Java (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="java" name="java" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="javascript">JavaScript (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="javascript" name="javascript" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="html_css">HTML/CSS (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="html_css" name="html_css" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="react">React (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="react" name="react" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="nodejs">Node.js (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="nodejs" name="nodejs" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="sql">SQL (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="sql" name="sql" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="machine_learning">Machine Learning (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="machine_learning" name="machine_learning" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="deep_learning">Deep Learning (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="deep_learning" name="deep_learning" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="data_visualization">Data Visualization (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="data_visualization" name="data_visualization" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="statistics">Statistics (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="statistics" name="statistics" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="docker">Docker (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="docker" name="docker" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="kubernetes">Kubernetes (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="kubernetes" name="kubernetes" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="aws">AWS (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="aws" name="aws" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="git">Git (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="git" name="git" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="linux">Linux (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="linux" name="linux" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="communication">Communication (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="communication" name="communication" class="form-control" value="3" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="aptitude">Aptitude (1 to 5)</label>
+            <input type="number" step="1" min="1" max="5" id="aptitude" name="aptitude" class="form-control" value="3" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="projects">Projects Count</label>
+            <input type="number" step="1" min="0" id="projects" name="projects" class="form-control" value="2" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="internship">Internship Count</label>
+            <input type="number" step="1" min="0" id="internship" name="internship" class="form-control" value="1" required>
+        </div>
+
+        <div style="grid-column: span 2;">
+            <button type="submit" class="btn-primary" style="width:100%; margin-top:1rem;">Calculate Skill Gap</button>
+        </div>
+    </form>
+</div>
+
+<!-- Output Section (Existing Visualizations) -->
 <div class="grid grid-cols-3 mb-4">
     <!-- Comparison View (Radar Chart Placeholder) -->
     <div class="card" style="grid-column: span 1;">
