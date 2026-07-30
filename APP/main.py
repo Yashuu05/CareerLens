@@ -143,6 +143,93 @@ async def read_prediction(request: Request):
         context={"active_page": "prediction", "user_name": "Alice"}
     )
 
+@app.post("/prediction", response_class=HTMLResponse)
+async def post_prediction(
+    request: Request,
+    branch: str = Form(...),
+    college_tier: str = Form(...),
+    cgpa: float = Form(...),
+    backlogs: int = Form(...),
+    coding_skills: int = Form(...),
+    dsa_score: int = Form(...),
+    aptitude_score: int = Form(...),
+    communication_skills: int = Form(...),
+    ml_knowledge: int = Form(...),
+    system_design: int = Form(...),
+    internships: int = Form(...),
+    projects_count: int = Form(...),
+    certifications: int = Form(...),
+    hackathons: int = Form(...),
+    open_source_contributions: int = Form(...),
+    extracurriculars: int = Form(...)
+):
+    input_data = {
+        "branch": branch,
+        "college_tier": college_tier,
+        "cgpa": cgpa,
+        "backlogs": backlogs,
+        "coding_skills": coding_skills,
+        "dsa_score": dsa_score,
+        "aptitude_score": aptitude_score,
+        "communication_skills": communication_skills,
+        "ml_knowledge": ml_knowledge,
+        "system_design": system_design,
+        "internships": internships,
+        "projects_count": projects_count,
+        "certifications": certifications,
+        "hackathons": hackathons,
+        "open_source_contributions": open_source_contributions,
+        "extracurriculars": extracurriculars
+    }
+
+    from PlacementPrediction.prediction import load_model, predict_placement, MODEL_DIR
+    
+    model = load_model(MODEL_DIR)
+    
+    placement_probability = 0.0
+    if model:
+        
+        result, prob = predict_placement(model, input_data)
+        
+        if result == "not placed":
+            placement_probability = 1.0 - prob
+        else:
+            placement_probability = prob
+        placement_probability = round(placement_probability * 100, 2)
+    
+    # Save to MongoDB
+    email = None
+    token_str = request.cookies.get("access_token")
+    if token_str and token_str.startswith("Bearer "):
+        token = token_str.split(" ")[1]
+        try:
+            import jwt
+            from APP.auth.utils import SECRET_KEY, ALGORITHM
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            email = payload.get("sub")
+        except:
+            pass
+
+    if email:
+        from DB.create_db import get_database
+        db = get_database()
+        
+        db["students"].update_one(
+            {"email": email}, 
+            {"$set": {"placement_probability": placement_probability}},
+            upsert=True
+        )
+
+    return templates.TemplateResponse(
+        request=request, 
+        name="placement_prediction.html", 
+        context={
+            "active_page": "prediction", 
+            "user_name": "Alice",
+            "probability": placement_probability
+        }
+    )
+
 @app.get("/skill_gap", response_class=HTMLResponse)
 async def read_skill_gap(request: Request):
     return templates.TemplateResponse(

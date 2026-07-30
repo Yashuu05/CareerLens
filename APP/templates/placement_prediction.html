@@ -12,7 +12,7 @@
 <!-- Input Form -->
 <div class="card mb-4" style="width: 100%;">
     <h2 class="mb-2">Parameters</h2>
-    <form action="#" method="POST" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+    <form action="/prediction" method="POST" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
         <div class="form-group">
             <label class="form-label" for="branch">Branch</label>
             <select id="branch" name="branch" class="form-control" required>
@@ -112,7 +112,7 @@
                 a 15.9155 15.9155 0 0 1 0 -31.831" />
         </svg>
         <div style="position: absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center;">
-            <div style="font-weight:700; font-size:2.5rem; color:var(--text-primary); font-variant-numeric:tabular-nums;">85%</div>
+            <div style="font-weight:700; font-size:2.5rem; color:var(--text-primary); font-variant-numeric:tabular-nums;">{% if probability is defined %}{{ probability }}%{% else %}--%{% endif %}</div>
             <div class="text-secondary" style="font-size:0.875rem;">Probability</div>
         </div>
     </div>
