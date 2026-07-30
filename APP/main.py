@@ -110,10 +110,29 @@ async def do_signup(
 
 @app.get("/dashboard", response_class=HTMLResponse)
 async def read_dashboard(request: Request):
+    from DB.create_db import get_database
+    import jwt
+    from APP.auth.utils import SECRET_KEY, ALGORITHM
+    
+    user_name = "Guest"
+    token_str = request.cookies.get("access_token")
+    if token_str and token_str.startswith("Bearer "):
+        token = token_str.split(" ")[1]
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            email = payload.get("sub")
+            if email:
+                db = get_database()
+                user = db["students"].find_one({"email": email})
+                if user and "first_name" in user:
+                    user_name = user["first_name"]
+        except Exception:
+            pass
+
     return templates.TemplateResponse(
         request=request, 
         name="dashboard.html", 
-        context={"active_page": "dashboard", "user_name": "Alice"}
+        context={"active_page": "dashboard", "user_name": user_name}
     )
 
 @app.get("/prediction", response_class=HTMLResponse)

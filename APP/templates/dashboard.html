@@ -4,83 +4,182 @@
 {% block breadcrumb %}Dashboard{% endblock %}
 
 {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .dashboard-grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+        gap: 1.5rem; 
+        margin-bottom: 1.5rem;
+    }
+    .card { 
+        background: var(--bg-card, #fff); 
+        padding: 1.5rem; 
+        border-radius: 8px; 
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+        display: flex;
+        flex-direction: column;
+    }
+    .metric-value { 
+        font-size: 2.5rem; 
+        font-weight: bold; 
+        margin: 0.5rem 0;
+    }
+    .tag { 
+        display: inline-block; 
+        padding: 0.25rem 0.75rem; 
+        border-radius: 9999px; 
+        font-size: 0.875rem; 
+        font-weight: 600; 
+    }
+    .tag-learner { background: #e0f2fe; color: #0369a1; }
+    .tag-beginner { background: #f3e8ff; color: #7e22ce; }
+    .chart-container { 
+        position: relative; 
+        height: 300px; 
+        width: 100%; 
+        margin-top: 1rem;
+    }
+</style>
+
 <div class="mb-4">
     <h1>Welcome back, {{ user_name }}!</h1>
-    <p class="text-secondary">Here's an overview of your academic and career standing. Current CGPA: <strong>8.5</strong> | Branch: <strong>Computer Science</strong></p>
+    <p class="text-secondary">Here's an analytical overview of your placement prediction, skill gaps, and roadmap.</p>
 </div>
 
-<div class="grid grid-cols-3 mb-4">
-    <!-- Probability Card -->
-    <div class="card flex flex-col items-center justify-center text-center">
+<!-- Top row metrics -->
+<div class="dashboard-grid">
+    <!-- Placement Prediction -->
+    <div class="card items-center text-center">
         <h3 class="metric-label">Placement Probability</h3>
-        <div style="position: relative; width: 120px; height: 120px; margin: 1rem 0;">
-            <!-- Dummy SVG Gauge -->
-            <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;">
-                <path style="fill:none; stroke:var(--border-color); stroke-width:3"
-                    d="M18 2.0845
-                    a 15.9155 15.9155 0 0 1 0 31.831
-                    a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <path style="fill:none; stroke:var(--primary-emerald); stroke-width:3; stroke-dasharray: 85, 100"
-                    d="M18 2.0845
-                    a 15.9155 15.9155 0 0 1 0 31.831
-                    a 15.9155 15.9155 0 0 1 0 -31.831" />
-            </svg>
-            <div style="position: absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-weight:700; font-size:1.5rem;">
-                85%
-            </div>
-        </div>
-        <p class="text-success" style="font-weight:600; font-size:0.875rem;"><i data-feather="trending-up" style="width:16px; height:16px;"></i> High Chance</p>
+        <div id="placementProb" class="metric-value" data-value="75.5">75.5%</div>
+        <p id="placementText" class="text-secondary" style="font-weight:600;"></p>
+    </div>
+    
+    <!-- Skill Gap summary -->
+    <div class="card items-center text-center">
+        <h3 class="metric-label">Total Skill Gap</h3>
+        <div class="metric-value">40.33%</div>
+        <p class="text-secondary">Status: <span class="tag tag-learner">Learner</span></p>
     </div>
 
-    <!-- Skill Gaps Card -->
-    <div class="card flex flex-col items-center justify-center text-center">
-        <h3 class="metric-label">Identified Skill Gaps</h3>
-        <div class="metric-value mb-1">4</div>
-        <p class="text-secondary" style="font-size:0.875rem;">Action needed to bridge gaps</p>
-        <a href="/skill_gap" class="btn-primary mt-2" style="margin-top:1rem; padding: 0.5rem 1rem; font-size:0.875rem;">View Gaps</a>
-    </div>
-
-    <!-- Roadmap Milestone Card -->
-    <div class="card flex flex-col justify-center">
-        <h3 class="metric-label">Next Milestone</h3>
-        <h2 style="font-size:1.25rem;" class="mb-1">Complete System Design Fundamentals</h2>
-        <p class="text-secondary mb-2" style="font-size:0.875rem;">Estimated time: 2 weeks</p>
-        
-        <!-- Progress bar -->
-        <div style="width:100%; height:8px; background:var(--border-color); border-radius:4px; margin-bottom:1rem; overflow:hidden;">
-            <div style="width:60%; height:100%; background:var(--primary-emerald);"></div>
-        </div>
-        
-        <a href="/roadmap" style="font-weight:600; display:flex; align-items:center; gap:0.5rem; font-size:0.875rem;">
-            Continue Roadmap <i data-feather="arrow-right" style="width:16px; height:16px;"></i>
-        </a>
+    <!-- Career Readiness -->
+    <div class="card items-center text-center">
+        <h3 class="metric-label">Career Readiness Score</h3>
+        <div class="metric-value" style="color: #0ea5e9;">45.23%</div>
+        <p class="text-secondary">Keep improving your skills!</p>
     </div>
 </div>
 
-<div class="card">
-    <h2 class="mb-2">Recent Activity</h2>
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Action</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Completed React.js course</td>
-                    <td class="text-secondary">2 days ago</td>
-                    <td><span class="tag tag-low">Completed</span></td>
-                </tr>
-                <tr>
-                    <td>Updated DSA score</td>
-                    <td class="text-secondary">5 days ago</td>
-                    <td><span class="tag tag-medium">Reviewed</span></td>
-                </tr>
-            </tbody>
-        </table>
+<!-- Detailed Analytics -->
+<div class="dashboard-grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="card">
+        <h3>Category Wise Skill Gap</h3>
+        <div class="chart-container">
+            <canvas id="categoryChart"></canvas>
+        </div>
+    </div>
+    <div class="card">
+        <h3>Technical Gap Breakdown</h3>
+        <div class="chart-container">
+            <canvas id="technicalChart"></canvas>
+        </div>
     </div>
 </div>
+
+<!-- Roadmap Strengths & Weaknesses -->
+<div class="dashboard-grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="card">
+        <h3 class="mb-3" style="color: #16a34a; font-size: 1.25rem;">Top 3 Strengths</h3>
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li class="mb-2">✅ Basic understanding of Linux (87.69%)</li>
+            <li class="mb-2">✅ Familiarity with Git (65.77%)</li>
+            <li class="mb-2">✅ Knowledge of AWS services (10.68%)</li>
+        </ul>
+    </div>
+    <div class="card">
+        <h3 class="mb-3" style="color: #dc2626; font-size: 1.25rem;">Top 3 Weaknesses</h3>
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li class="mb-2">⚠️ Python programming (4.57%)</li>
+            <li class="mb-2">⚠️ Java programming (1.82%)</li>
+            <li class="mb-2">⚠️ Machine learning concepts (0%)</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Dynamic Placement Probability Color
+    const probElement = document.getElementById('placementProb');
+    const probText = document.getElementById('placementText');
+    const probValue = parseFloat(probElement.getAttribute('data-value'));
+    
+    if (probValue < 40) {
+        probElement.style.color = '#ef4444'; // Red
+        probText.textContent = 'Low Chance';
+        probText.style.color = '#ef4444';
+    } else if (probValue < 70) {
+        probElement.style.color = '#f97316'; // Orange
+        probText.textContent = 'Medium Chance';
+        probText.style.color = '#f97316';
+    } else {
+        probElement.style.color = '#22c55e'; // Green
+        probText.textContent = 'High Chance';
+        probText.style.color = '#22c55e';
+    }
+
+    // Initialize Category Wise Skill Gap Chart (Pie Chart)
+    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+    new Chart(categoryCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Technical', 'Project', 'Internships', 'Aptitude', 'Soft Skill'],
+            datasets: [{
+                data: [56.62, 2.32, 34.7, 56.0, 23.0],
+                backgroundColor: [
+                    '#3b82f6',
+                    '#10b981',
+                    '#f59e0b',
+                    '#ef4444',
+                    '#8b5cf6'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right' }
+            }
+        }
+    });
+
+    // Initialize Technical Gap Breakdown Chart (Bar Chart)
+    const technicalCtx = document.getElementById('technicalChart').getContext('2d');
+    new Chart(technicalCtx, {
+        type: 'bar',
+        data: {
+            labels: ['python', 'java', 'javascript', 'html_css', 'react', 'nodejs', 'sql', 'machine_learning', 'deep_learning', 'data_visualization', 'statistics', 'docker', 'kubernetes', 'aws', 'git', 'linux'],
+            datasets: [{
+                label: 'Gap (%)',
+                data: [4.57, 1.82, 0, 0, 0, 4.11, 2.29, 0, 0, 0, 2.74, 6.03, 9.04, 10.68, 6.58, 8.77],
+                backgroundColor: '#3b82f6',
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { 
+                    beginAtZero: true,
+                    title: { display: true, text: 'Gap %' }
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+</script>
 {% endblock %}

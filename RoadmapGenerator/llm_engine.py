@@ -1,6 +1,6 @@
 from ollama import chat
 
-def stream_response(model_nameL: str, system_prompt: str, student_data: dict) -> None:
+def stream_response(model_name: str, system_prompt: str, student_data: dict) -> None:
     """
     *purpose*: generates the llm response on given student data in chunks
     
@@ -13,7 +13,7 @@ def stream_response(model_nameL: str, system_prompt: str, student_data: dict) ->
     """
 
     stream = chat(
-        model=model_nameL,
+        model=model_name,
         messages=[
             {'role':'system', 'content': system_prompt},
             {'role': 'user',
