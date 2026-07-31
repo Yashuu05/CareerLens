@@ -7,6 +7,7 @@ import sys
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if not project_root in sys.path:
     sys.path.insert(0, project_root)
+from logger import logging as log
 # creating app
 app = FastAPI()
 
@@ -236,6 +237,123 @@ async def read_skill_gap(request: Request):
         request=request, 
         name="skill_gap.html", 
         context={"active_page": "skill_gap", "user_name": "Alice"}
+    )
+
+@app.post("/skill_gap", response_class=HTMLResponse)
+async def calculate_skill_gap(
+    request: Request,
+    target_domain: str = Form(...),
+    python: str = Form(...),
+    java: float = Form(...),
+    javascript: int = Form(...),
+    html_css: int = Form(...),
+    react: int = Form(...),
+    nodejs: int = Form(...),
+    sql: int = Form(...),
+    machine_learning: int = Form(...),
+    deep_learning: int = Form(...),
+    data_visualization: int = Form(...),
+    statistics: int = Form(...),
+    docker: int = Form(...),
+    kubernetes: int = Form(...),
+    aws: int = Form(...),
+    git: int = Form(...),
+    linux: int = Form(...),
+    communication: int = Form(...),
+    aptitude: int = Form(...),
+    projects: int = Form(...),
+    internship: int = Form(...)
+):
+    log.info("collecting the students data")
+    student_input = {
+        "target_domain": target_domain,
+        "python":python, 
+        "java": java,
+        "javascript": javascript,
+        "html_css": html_css,
+        "react": react,
+        "nodejs": nodejs,
+        "sql": sql,
+        "machine_learning": machine_learning,
+        "deep_learning": deep_learning,
+        "data_visualization": data_visualization,
+        "statistics": statistics,
+        "docker": docker,
+        "kubernetes": kubernetes,
+        "aws": aws,
+        "git": git,
+        "linux": linux,
+        "communication": communication,
+        "aptitude": aptitude,
+        "projects": projects,
+        "internship": internship
+    }
+
+    log.info("connecting to database")
+    from DB.create_db import get_database
+    db = get_database()
+    domain = db['domains'].find_one({"domain_name": target_domain})
+    
+    result_data = {}
+    if domain:
+        log.info(f"{domain} exist in datbase.")
+        # get dataset of chosen domain
+        domain_skill_weights = db['domain_skill_weights'].find_one({"domain": target_domain})
+        skill_requiremnt = db['skill_requirements'].find_one({'domain': target_domain})
+        category_weights = db['category_weights'].find_one({'domain': target_domain})
+        
+        from SkillGap.main_calculation import calculate_skill_gap_from_db
+        
+        if domain_skill_weights and skill_requiremnt and category_weights:
+            log.info("calculating skill gap")
+            result = calculate_skill_gap_from_db(
+                domain=target_domain,
+                student_scores=student_input,
+                domain_weights=domain_skill_weights,
+                domain_reqs=skill_requiremnt,
+                domain_cat_weights=category_weights
+            )
+            
+            # Prepare data to save to DB (convert DataFrames to list of dicts)
+            result_data = {
+                "total_gap": result["total_gap"],
+                "tag": result["tag"],
+                "technical_gap_percent": result["technical_gap_percent"],
+                "technical_breakdown": result["technical_breakdown"].to_dict('records'),
+                "category_gap_breakdown": result["category_gap_breakdown"].to_dict('records'),
+                "overall_results": result["overall_results"].to_dict('records')
+            }
+            
+            # Get user email from token
+            log.info("getting the email of user")
+            email = None
+            token_str = request.cookies.get("access_token")
+            if token_str and token_str.startswith("Bearer "):
+                token = token_str.split(" ")[1]
+                try:
+                    import jwt
+                    from APP.auth.utils import SECRET_KEY, ALGORITHM
+                    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+                    email = payload.get("sub")
+                except:
+                    pass
+
+            if email:
+                log.info(f"{email} exist. Saving results to database")
+                db["students"].update_one(
+                    {"email": email},
+                    {"$set": {"skill_gap_results": result_data}},
+                    upsert=True
+                )
+
+    return templates.TemplateResponse(
+        request=request, 
+        name="skill_gap.html", 
+        context={
+            "active_page": "skill_gap", 
+            "user_name": "Alice", 
+            "result": result_data
+        }
     )
 
 @app.get("/roadmap", response_class=HTMLResponse)

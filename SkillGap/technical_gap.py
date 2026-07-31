@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 
-def technical_skill_calculate(domain, skill_data):
+def technical_skill_calculate(skill_data):
     """
     *purpose*: to calculate the overall "technical" skill from given input
     *input*: skill_data (dataframe)

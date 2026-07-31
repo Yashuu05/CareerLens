@@ -75,7 +75,7 @@ def calculate_skill_gap_for_student(domain, student_scores):
     category_data = pd.DataFrame(cat_data_list)
     
     # 3. Calculate gaps
-    tech_total, tech_percent, tech_df = technical_skill_calculate(domain, skill_data)
+    tech_total, tech_percent, tech_df = technical_skill_calculate(skill_data)
     cat_df = category_gap_calculation(domain, category_data)
     
     total_gap, results_df, tag = total_skill_gap_calculation(
@@ -93,3 +93,67 @@ def calculate_skill_gap_for_student(domain, student_scores):
         'category_gap_breakdown': cat_df,
         'overall_results': results_df
     }
+
+def calculate_skill_gap_from_db(domain, student_scores, domain_weights, domain_reqs, domain_cat_weights):
+    """
+    Orchestrates the skill gap calculation directly from MongoDB documents.
+    """
+    # 1. Construct technical skill_data
+    # Technical skills are all keys in domain_weights except '_id' and 'domain'
+    tech_skills = [k for k in domain_weights.keys() if k not in ('_id', 'domain')]
+    
+    skill_data_list = []
+    for skill in tech_skills:
+        req_val = float(domain_reqs.get(skill, 0))
+        weight_val = float(domain_weights.get(skill, 0))
+        student_val = float(student_scores.get(skill, 0))
+        
+        skill_data_list.append({
+            'skill': skill,
+            'required': req_val,
+            'student': student_val,
+            'weight': weight_val
+        })
+        
+    skill_data = pd.DataFrame(skill_data_list)
+    
+    # 2. Construct category_data
+    cat_keys = ['aptitude', 'projects', 'internship', 'communication']
+    cat_data_list = []
+    
+    for cat in cat_keys:
+        req_val = float(domain_reqs.get(cat, 0))
+        student_score_key = 'soft_skill' if cat == 'communication' and 'soft_skill' in student_scores else cat
+        student_val = float(student_scores.get(student_score_key, 0))
+        
+        cat_data_list.append({
+            'category': 'soft_skill' if cat == 'communication' else cat, 
+            'required': req_val,
+            'student': student_val
+        })
+        
+    category_data = pd.DataFrame(cat_data_list)
+    
+    # 3. Convert domain_cat_weights to a 1-row DataFrame for total_skill_gap_calculation
+    cat_weights_df = pd.DataFrame([domain_cat_weights])
+    
+    # 4. Calculate gaps
+    tech_total, tech_percent, tech_df = technical_skill_calculate(skill_data)
+    cat_df = category_gap_calculation(domain, category_data)
+    
+    total_gap, results_df, tag = total_skill_gap_calculation(
+        domain, 
+        tech_total, 
+        cat_df, 
+        cat_weights_df
+    )
+    
+    return {
+        'total_gap': float(total_gap * 100),
+        'tag': tag,
+        'technical_gap_percent': tech_percent,
+        'technical_breakdown': tech_df,
+        'category_gap_breakdown': cat_df,
+        'overall_results': results_df
+    }
+
