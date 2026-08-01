@@ -12,7 +12,7 @@ from logger import logging as log
 app = FastAPI()
 
 # Include the JWT authentication router
-from APP.auth.router import router as auth_router
+from RoadmapGenerator.APP.auth.router import router as auth_router
 app.include_router(auth_router)
 
 # Mount static files directory (CSS, JS, Images)
@@ -41,8 +41,8 @@ async def read_login(request: Request):
 @app.post("/login", response_class=HTMLResponse)
 async def do_login(request: Request, email: str = Form(...), password: str = Form(...)):
     from DB.create_db import get_database
-    from APP.auth.utils import verify_password, create_access_token
-    from APP.auth.router import ACCESS_TOKEN_EXPIRE_MINUTES
+    from RoadmapGenerator.APP.auth.utils import verify_password, create_access_token
+    from RoadmapGenerator.APP.auth.router import ACCESS_TOKEN_EXPIRE_MINUTES
     from datetime import timedelta
     
     db = get_database()
@@ -84,7 +84,7 @@ async def do_signup(
     course: str = Form(...)
 ):
     from DB.create_db import get_database
-    from APP.auth.utils import get_password_hash
+    from RoadmapGenerator.APP.auth.utils import get_password_hash
     
     db = get_database()
     if db["students"].find_one({"email": email}):
@@ -113,7 +113,7 @@ async def do_signup(
 async def read_dashboard(request: Request):
     from DB.create_db import get_database
     import jwt
-    from APP.auth.utils import SECRET_KEY, ALGORITHM
+    from RoadmapGenerator.APP.auth.utils import SECRET_KEY, ALGORITHM
     
     user_name = "Guest"
     token_str = request.cookies.get("access_token")
@@ -205,7 +205,7 @@ async def post_prediction(
         token = token_str.split(" ")[1]
         try:
             import jwt
-            from APP.auth.utils import SECRET_KEY, ALGORITHM
+            from RoadmapGenerator.APP.auth.utils import SECRET_KEY, ALGORITHM
             payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
             email = payload.get("sub")
         except:
@@ -332,7 +332,7 @@ async def calculate_skill_gap(
                 token = token_str.split(" ")[1]
                 try:
                     import jwt
-                    from APP.auth.utils import SECRET_KEY, ALGORITHM
+                    from RoadmapGenerator.APP.auth.utils import SECRET_KEY, ALGORITHM
                     payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
                     email = payload.get("sub")
                 except:

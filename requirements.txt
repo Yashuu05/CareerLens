@@ -20,3 +20,4 @@ python-multipart
 pwdlib
 pyjwt
 pwdlib[argon2]
+google-genai

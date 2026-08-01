@@ -3,3 +3,13 @@ local_llm:
   provider : "ollama"
   library : "ollama"
   developed_by : "meta"
+cloud_llm:
+  models:
+    model_1 : "gemini-3.5-flash-lite"
+    model_2 : "gemini-3.1-flash-lite"
+  provider : "google"
+  library : "google-genai"
+  usage:
+    output_token_lmit: 65536  
+    input_token_limit: 1048576
+  temperature: 0.5
