@@ -4,8 +4,8 @@ from datetime import timedelta
 import os
 
 from DB.create_db import get_database
-from RoadmapGenerator.APP.auth.utils import verify_password, create_access_token, get_password_hash
-from RoadmapGenerator.APP.auth.dependencies import get_current_user
+from APP.auth.utils import verify_password, create_access_token, get_password_hash
+from APP.auth.dependencies import get_current_user
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 

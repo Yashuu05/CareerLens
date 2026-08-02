@@ -38,41 +38,25 @@ def run_model(model_name: str, prompt: str, temp: float, system_instruction):
         
     """
     client = genai.Client()
-    interaction = client.interactions.create(
+    response = client.models.generate_content(
         model=model_name,
-        input=prompt,
-        stream=True,
-        generation_config={
-            "temprature":temp,
-            system_instruction:system_instruction
+        contents=prompt,
+        config={
+            "temperature": temp,
+            "system_instruction": system_instruction
         }
     )
-    total_tokens, total_input_tokens, total_output_tokens = 0, 0, 0
-    """
-    for event in interaction:
+    full_response = response.text
+    if hasattr(response, "usage_metadata") and response.usage_metadata:
+        total_tokens = getattr(response.usage_metadata, "total_token_count", 0)
+        total_input_tokens = getattr(response.usage_metadata, "prompt_token_count", 0)
+        total_output_tokens = getattr(response.usage_metadata, "candidates_token_count", 0)
+    else:
+        total_tokens, total_input_tokens, total_output_tokens = 0, 0, 0
         
-        # Extract text from the event, delta, or dictionary
-        if hasattr(event, "delta") and getattr(event.delta, "text", None):
-            print(event.delta.text, end="", flush=True)
-        elif hasattr(event, "text") and getattr(event, "text", None):
-            print(event.text, end="", flush=True)
-        elif isinstance(event, dict) and "text" in event:
-            print(event["text"], end="", flush=True)
-        """
-    for event in interaction:
-        if event.event_type == "step.delta":
-            if event.delta.type == "text":
-                print(event.delta.text, end="", flush=True)
+    print(full_response)
         
-        if hasattr(event, "interaction") and getattr(event.interaction, "usage", None):
-            usage = event.interaction.usage
-            total_tokens = getattr(usage, "total_tokens", 0)
-            total_input_tokens = getattr(usage, "total_input_tokens", 0)
-            total_output_tokens = getattr(usage, "total_output_tokens", 0)
-        
-    print() # Print a newline at the end of the response
-        
-    return total_tokens, total_input_tokens, total_output_tokens
+    return full_response, total_tokens, total_input_tokens, total_output_tokens
 
 def load_yaml(file_path:Path):
     print(f"opening {file_path}")
@@ -96,6 +80,35 @@ def load_json(file_path: Path):
     except Exception as e:
         print(f"error: {e}")
         return None
+
+def generate_roadmap(student_gap_data: dict):
+    config_path = os.path.join(project_root, "RoadmapGenerator", "config.yaml")
+    data = load_yaml(file_path=config_path)
+    system_prompt_path = os.path.join(project_root, "RoadmapGenerator", "system_prompt.md")
+    system_prompt = read_file(file_path=system_prompt_path)
+    
+    if data:
+        model_1 = data["cloud_llm"]["models"]["model_1"]
+        model_2 = data["cloud_llm"]["models"]["model_2"]
+        temperature = data["cloud_llm"]["temperature"]
+        
+        user_input = f"Generate personalized and concise career roadmap by analyzing given student data. Strictly follow instructions.\nStudent data:\n'{json.dumps(student_gap_data)}'"
+        
+        try:
+            full_response, tokens, it, ot = run_model(model_name=model_1, prompt=user_input, temp=temperature, system_instruction=system_prompt)
+            return full_response
+        except Exception as e:
+            error_msg = str(e).lower()
+            if "service_unavailable" in error_msg or "quota_exceeded" in error_msg:
+                log.error(f"API Error '{error_msg}'. Falling back to model: {model_2}")
+                try:
+                    full_response, tokens, it, ot = run_model(model_name=model_2, prompt=user_input, temp=temperature, system_instruction=system_prompt)
+                    return full_response
+                except Exception as fallback_e:
+                    log.error(f"Fallback model failed: {fallback_e}")
+            log.error(f"Error in generate_roadmap: {e}")
+            return None
+    return None
 
 if __name__ == "__main__":
     try:
@@ -130,7 +143,7 @@ if __name__ == "__main__":
             try:
                 if student_gap_data is not None:
                     user_input = f"Generate personalized roadmap by analyzing given student data. Strictly follow instruction prompt. Refer to example for assistance.Example:\n'{example}'.\nStudent data:\n'{student_gap_data}'"
-                    total_tokens, input_tokens, output_tokens = run_model(model_name=model_1, prompt=user_input, temp=temperature, system_instruction=system_prompt)
+                    full_response, total_tokens, input_tokens, output_tokens = run_model(model_name=model_1, prompt=user_input, temp=temperature, system_instruction=system_prompt)
                     print(f"\n[Usage] total tokens= {total_tokens} | input tokens= {input_tokens} | output tokens= {output_tokens}")
                     log.info(f"{model_1} ran with input tokens {input_tokens} and output tokens {output_tokens}")
                 else:
@@ -144,7 +157,7 @@ if __name__ == "__main__":
                     print(f"\nAPI Error '{error_msg}'. Falling back to model: {model_2}")
                     log.error(f"API Error '{error_msg}")
                     try:
-                        total_tokens, input_tokens, output_tokens = run_model(model_name=model_2, prompt=user_input)
+                        full_response, total_tokens, input_tokens, output_tokens = run_model(model_name=model_2, prompt=user_input, temp=temperature, system_instruction=system_prompt)
                         print(f"\n[Usage] total tokens= {total_tokens} | input tokens= {input_tokens} | output tokens= {output_tokens}")
                     except Exception as fallback_e:
                         print(f"Fallback model failed: {fallback_e}")

@@ -2,7 +2,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 import jwt
 from jwt.exceptions import InvalidTokenError
-from RoadmapGenerator.APP.auth.utils import SECRET_KEY, ALGORITHM
+from APP.auth.utils import SECRET_KEY, ALGORITHM
 from DB.create_db import get_database
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
