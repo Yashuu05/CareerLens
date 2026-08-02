@@ -10,10 +10,14 @@
         <p class="text-secondary">Your step-by-step guide to achieve industry Skills of your selected domain.</p>
     </div>
     <div style="display:flex; gap: 1rem;">
-        <form action="#" method="POST">
+        <form action="#" method="POST" id="generate-form">
             <button type="submit" class="btn-primary">Generate Roadmap</button>
         </form>
-        <button class="btn-primary" style="background:var(--bg-color); color:var(--text-primary); border:1px solid var(--border-color);">Export PDF</button>
+        {% if roadmap %}
+        <form action="/export_roadmap_pdf" method="GET">
+            <button type="submit" class="btn-secondary">Export PDF</button>
+        </form>
+        {% endif %}
     </div>
 </div>
 
@@ -47,4 +51,48 @@
     </div>
 </div>
 {% endif %}
+
+<!-- Dynamic Loader Modal -->
+<div id="dynamic-loader" class="loader-overlay" style="display: none; z-index: 10000; flex-direction: column;">
+    <div class="spinner" style="margin-bottom: 1rem;"></div>
+    <h3 id="loader-title" style="color: var(--primary-color);">Processing...</h3>
+    <p id="loader-step" style="color: var(--text-secondary); font-weight: 600; margin-top: 0.5rem;">Please wait</p>
+</div>
+
+<script>
+    const genForm = document.getElementById('generate-form');
+    if (genForm) {
+        genForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Hide primary loader if triggered
+            const primaryLoader = document.getElementById('primary-loader');
+            if(primaryLoader) primaryLoader.classList.remove('active');
+            
+            const loader = document.getElementById('dynamic-loader');
+            const stepText = document.getElementById('loader-step');
+            
+            loader.style.display = 'flex';
+            setTimeout(() => loader.classList.add('active'), 10);
+            
+            const steps = [
+                "Verifying user...",
+                "Generating roadmap..."
+            ];
+            
+            let i = 0;
+            stepText.textContent = steps[0];
+            
+            const stepInterval = setInterval(() => {
+                i++;
+                if(i < steps.length) {
+                    stepText.textContent = steps[i];
+                } else {
+                    clearInterval(stepInterval);
+                    genForm.submit();
+                }
+            }, 800);
+        });
+    }
+</script>
 {% endblock %}

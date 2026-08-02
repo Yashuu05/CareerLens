@@ -116,6 +116,7 @@ async def read_dashboard(request: Request):
     from APP.auth.utils import SECRET_KEY, ALGORITHM
     
     user_name = "Guest"
+    user_data = None
     token_str = request.cookies.get("access_token")
     if token_str and token_str.startswith("Bearer "):
         token = token_str.split(" ")[1]
@@ -125,15 +126,19 @@ async def read_dashboard(request: Request):
             if email:
                 db = get_database()
                 user = db["students"].find_one({"email": email})
-                if user and "first_name" in user:
-                    user_name = user["first_name"]
+                if user:
+                    if "_id" in user:
+                        user["_id"] = str(user["_id"])
+                    if "first_name" in user:
+                        user_name = user["first_name"]
+                    user_data = user
         except Exception:
             pass
 
     return templates.TemplateResponse(
         request=request, 
         name="dashboard.html", 
-        context={"active_page": "dashboard", "user_name": user_name}
+        context={"active_page": "dashboard", "user_name": user_name, "user": user_data}
     )
 
 @app.get("/prediction", response_class=HTMLResponse)
@@ -425,3 +430,71 @@ async def generate_roadmap_route(request: Request):
         name="roadmap.html", 
         context={"active_page": "roadmap", "user_name": user_name, "roadmap": roadmap}
     )
+
+@app.get("/export_roadmap_pdf")
+async def export_roadmap_pdf(request: Request):
+    from DB.create_db import get_database
+    import jwt
+    from APP.auth.utils import SECRET_KEY, ALGORITHM
+    from fastapi.responses import Response
+    import markdown
+    from xhtml2pdf import pisa
+    import io
+    
+    email = None
+    token_str = request.cookies.get("access_token")
+    if token_str and token_str.startswith("Bearer "):
+        token = token_str.split(" ")[1]
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            email = payload.get("sub")
+        except:
+            pass
+
+    if not email:
+        return RedirectResponse(url="/login", status_code=302)
+
+    db = get_database()
+    user = db["students"].find_one({"email": email})
+    
+    if not user or not user.get("roadmap_results"):
+        return RedirectResponse(url="/roadmap", status_code=302)
+
+    roadmap_md = user.get("roadmap_results")
+    
+    html_content = markdown.markdown(roadmap_md)
+    
+    pdf_html = f"""
+    <html>
+    <head>
+        <style>
+            body {{ font-family: Helvetica, Arial, sans-serif; font-size: 12px; line-height: 1.6; color: #333; }}
+            h1, h2, h3 {{ color: #4F46E5; margin-bottom: 10px; }}
+            h1 {{ border-bottom: 2px solid #4F46E5; padding-bottom: 5px; }}
+            pre {{ background-color: #f4f4f4; padding: 10px; border-radius: 5px; }}
+            code {{ font-family: monospace; background-color: #f4f4f4; padding: 2px 4px; }}
+            ul, ol {{ margin-left: 20px; margin-bottom: 15px; }}
+            li {{ margin-bottom: 5px; }}
+        </style>
+    </head>
+    <body>
+        <h1 style="text-align: center;">CareerLens Personalized Roadmap</h1>
+        <br/>
+        {html_content}
+    </body>
+    </html>
+    """
+    
+    result_file = io.BytesIO()
+    pisa_status = pisa.CreatePDF(io.StringIO(pdf_html), dest=result_file)
+    
+    if pisa_status.err:
+        return Response(content="Error generating PDF", status_code=500)
+        
+    pdf_bytes = result_file.getvalue()
+    
+    headers = {
+        'Content-Disposition': 'attachment; filename="CareerLens_Roadmap.pdf"'
+    }
+    
+    return Response(content=pdf_bytes, media_type="application/pdf", headers=headers)

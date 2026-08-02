@@ -23,7 +23,12 @@
     
     <div class="form-group">
         <label for="password" class="form-label">Password</label>
-        <input type="password" id="password" name="password" class="form-control" minlength="9" placeholder="More than 8 characters" required>
+        <div style="position: relative;">
+            <input type="password" id="password" name="password" class="form-control" minlength="9" placeholder="More than 8 characters" required style="padding-right: 40px;">
+            <button type="button" class="btn-icon" onclick="togglePassword('password', this)" style="position: absolute; right: 4px; top: 50%; transform: translateY(-50%); padding: 4px;" title="Toggle Password Visibility">
+                <i data-feather="eye"></i>
+            </button>
+        </div>
     </div>
 
     <div class="grid grid-cols-2" style="gap: 1rem;">

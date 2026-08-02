@@ -5,6 +5,7 @@
 
 {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <style>
     .dashboard-grid { 
         display: grid; 
@@ -52,21 +53,21 @@
     <!-- Placement Prediction -->
     <div class="card items-center text-center">
         <h3 class="metric-label">Placement Probability</h3>
-        <div id="placementProb" class="metric-value" data-value="75.5">75.5%</div>
+        <div id="placementProb" class="metric-value" data-value="{{ user.placement_probability if user and user.placement_probability else 0 }}">{{ user.placement_probability if user and user.placement_probability else 0 }}%</div>
         <p id="placementText" class="text-secondary" style="font-weight:600;"></p>
     </div>
     
     <!-- Skill Gap summary -->
     <div class="card items-center text-center">
         <h3 class="metric-label">Total Skill Gap</h3>
-        <div class="metric-value">40.33%</div>
-        <p class="text-secondary">Status: <span class="tag tag-learner">Learner</span></p>
+        <div class="metric-value">{{ "%.2f"|format(user.skill_gap_results.total_gap) if user and user.skill_gap_results else 0 }}%</div>
+        <p class="text-secondary">Status: <span class="tag tag-learner">{{ user.skill_gap_results.tag if user and user.skill_gap_results else 'N/A' }}</span></p>
     </div>
 
     <!-- Career Readiness -->
     <div class="card items-center text-center">
         <h3 class="metric-label">Career Readiness Score</h3>
-        <div class="metric-value" style="color: #0ea5e9;">45.23%</div>
+        <div id="careerReadiness" class="metric-value" style="color: var(--accent-color);">{{ "%.2f"|format(100 - user.skill_gap_results.total_gap) if user and user.skill_gap_results else "--" }}%</div>
         <p class="text-secondary">Keep improving your skills!</p>
     </div>
 </div>
@@ -90,30 +91,35 @@
 <!-- Roadmap Strengths & Weaknesses -->
 <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr;">
     <div class="card">
-        <h3 class="mb-3" style="color: #16a34a; font-size: 1.25rem;">Top 3 Strengths</h3>
-        <ul style="list-style-type: none; padding-left: 0;">
-            <li class="mb-2">✅ Basic understanding of Linux (87.69%)</li>
-            <li class="mb-2">✅ Familiarity with Git (65.77%)</li>
-            <li class="mb-2">✅ Knowledge of AWS services (10.68%)</li>
+        <h3 class="mb-3" style="color: var(--success-green); font-size: 1.25rem;">Top 3 Strengths</h3>
+        <ul id="topStrengths" style="list-style-type: none; padding-left: 0;">
+            <li class="mb-2 text-secondary">Data not available</li>
         </ul>
     </div>
     <div class="card">
-        <h3 class="mb-3" style="color: #dc2626; font-size: 1.25rem;">Top 3 Weaknesses</h3>
-        <ul style="list-style-type: none; padding-left: 0;">
-            <li class="mb-2">⚠️ Python programming (4.57%)</li>
-            <li class="mb-2">⚠️ Java programming (1.82%)</li>
-            <li class="mb-2">⚠️ Machine learning concepts (0%)</li>
+        <h3 class="mb-3" style="color: var(--danger-red); font-size: 1.25rem;">Top 3 Weaknesses</h3>
+        <ul id="topWeaknesses" style="list-style-type: none; padding-left: 0;">
+            <li class="mb-2 text-secondary">Data not available</li>
         </ul>
     </div>
 </div>
 
 <script>
+    Chart.defaults.color = '#9ca3af';
+    Chart.register(ChartDataLabels);
+
+    const user = {{ user | tojson | safe if user else 'null' }};
+
     // Dynamic Placement Probability Color
     const probElement = document.getElementById('placementProb');
     const probText = document.getElementById('placementText');
-    const probValue = parseFloat(probElement.getAttribute('data-value'));
+    const probValue = parseFloat(probElement.getAttribute('data-value')) || 0;
     
-    if (probValue < 40) {
+    if (probValue === 0) {
+        probElement.style.color = '#9ca3af'; // Gray
+        probText.textContent = 'Not predicted yet';
+        probText.style.color = '#9ca3af';
+    } else if (probValue < 40) {
         probElement.style.color = '#ef4444'; // Red
         probText.textContent = 'Low Chance';
         probText.style.color = '#ef4444';
@@ -129,19 +135,21 @@
 
     // Initialize Category Wise Skill Gap Chart (Pie Chart)
     const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+    let catLabels = ['Technical', 'Project', 'Internships', 'Aptitude', 'Soft Skill'];
+    let catData = [0, 0, 0, 0, 0];
+
+    if (user && user.skill_gap_results && user.skill_gap_results.overall_results) {
+        catLabels = user.skill_gap_results.overall_results.map(c => c.gap_category);
+        catData = user.skill_gap_results.overall_results.map(c => c.gap_value * 100);
+    }
+
     new Chart(categoryCtx, {
         type: 'pie',
         data: {
-            labels: ['Technical', 'Project', 'Internships', 'Aptitude', 'Soft Skill'],
+            labels: catLabels,
             datasets: [{
-                data: [56.62, 2.32, 34.7, 56.0, 23.0],
-                backgroundColor: [
-                    '#3b82f6',
-                    '#10b981',
-                    '#f59e0b',
-                    '#ef4444',
-                    '#8b5cf6'
-                ],
+                data: catData,
+                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
                 borderWidth: 1
             }]
         },
@@ -149,20 +157,38 @@
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: { position: 'right' }
+                legend: { 
+                    position: 'right',
+                    labels: { color: '#9ca3af' }
+                },
+                datalabels: {
+                    color: '#fff',
+                    font: { weight: 'bold' },
+                    formatter: (value, ctx) => {
+                        return value > 0 ? value.toFixed(1) + '%' : '';
+                    }
+                }
             }
         }
     });
 
     // Initialize Technical Gap Breakdown Chart (Bar Chart)
     const technicalCtx = document.getElementById('technicalChart').getContext('2d');
+    let techLabels = [];
+    let techDataVals = [];
+
+    if (user && user.skill_gap_results && user.skill_gap_results.technical_breakdown) {
+        techLabels = user.skill_gap_results.technical_breakdown.map(t => t.skill);
+        techDataVals = user.skill_gap_results.technical_breakdown.map(t => t.gap * 100);
+    }
+
     new Chart(technicalCtx, {
         type: 'bar',
         data: {
-            labels: ['python', 'java', 'javascript', 'html_css', 'react', 'nodejs', 'sql', 'machine_learning', 'deep_learning', 'data_visualization', 'statistics', 'docker', 'kubernetes', 'aws', 'git', 'linux'],
+            labels: techLabels,
             datasets: [{
                 label: 'Gap (%)',
-                data: [4.57, 1.82, 0, 0, 0, 4.11, 2.29, 0, 0, 0, 2.74, 6.03, 9.04, 10.68, 6.58, 8.77],
+                data: techDataVals,
                 backgroundColor: '#3b82f6',
                 borderRadius: 4
             }]
@@ -181,5 +207,40 @@
             }
         }
     });
+
+    // Parse Roadmap Data
+    if (user && user.roadmap_results) {
+        const text = user.roadmap_results;
+
+        // Parse Strengths and Weaknesses
+        const parseList = (regexStr, id, icon) => {
+            const match = text.match(new RegExp(regexStr, 'is'));
+            if (match) {
+                // Split by newline and find lines that look like bullet points or numbered lists
+                const lines = match[1].split('\n').map(l => l.trim()).filter(l => l.match(/^(?:[\*\+\-]|\d+\.)\s+/));
+                if (lines && lines.length > 0) {
+                    const ul = document.getElementById(id);
+                    ul.innerHTML = '';
+                    lines.slice(0, 3).forEach(line => {
+                        let cleanText = line.replace(/^(?:[\*\+\-]|\d+\.)\s+/, '').trim();
+                        cleanText = cleanText.replace(/\*\*/g, ''); // remove bold asterisks
+                        ul.innerHTML += `<li class="mb-2">${icon} ${cleanText}</li>`;
+                    });
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        const strengthsFound = parseList('Top 3 strengths:(.*?)(?:Top 3 weaknesses:|\\* Estimated|###)', 'topStrengths', '✅');
+        const weaknessesFound = parseList('Top 3 weaknesses:(.*?)(?:Estimated months|\\* Estimated|###)', 'topWeaknesses', '⚠️');
+
+        if (!strengthsFound) {
+            document.getElementById('topStrengths').innerHTML = `<li class="mb-2 text-secondary"><a href="/roadmap" style="color: var(--primary-color); text-decoration: underline;">View roadmap for more detailed explanation</a></li>`;
+        }
+        if (!weaknessesFound) {
+            document.getElementById('topWeaknesses').innerHTML = `<li class="mb-2 text-secondary"><a href="/roadmap" style="color: var(--primary-color); text-decoration: underline;">View roadmap for more detailed explanation</a></li>`;
+        }
+    }
 </script>
 {% endblock %}

@@ -7,8 +7,115 @@
     <link rel="stylesheet" href="/static/css/styles.css">
     <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        /* Loader styles */
+        .loader-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        [data-theme="dark"] .loader-overlay {
+            background: rgba(18, 18, 18, 0.8);
+        }
+        .loader-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Dropdown styles */
+        .profile-container {
+            position: relative;
+        }
+        .profile-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        .user-profile {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+            transition: transform 0.2s ease;
+        }
+        .profile-btn:hover .user-profile {
+            transform: scale(1.05);
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 100;
+        }
+        .profile-container.active .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .dropdown-item:hover {
+            background: var(--primary-light);
+            color: var(--primary-color);
+        }
+        .dropdown-item i {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
 </head>
 <body>
+    <!-- Primary Loader -->
+    <div id="primary-loader" class="loader-overlay">
+        <div class="spinner"></div>
+    </div>
+
     <div class="app-container">
         <!-- Sidebar -->
         <aside class="sidebar">
@@ -45,8 +152,21 @@
                     <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
                         <i data-feather="moon"></i>
                     </button>
-                    <div class="user-profile" style="width:32px; height:32px; background:var(--primary-emerald); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-weight:600;">
-                        {{ user_name[0] }}
+                    
+                    <div class="profile-container" id="profile-dropdown">
+                        <button class="profile-btn" onclick="toggleDropdown()">
+                            <div class="user-profile">
+                                {{ user_name[0] if user_name else 'U' }}
+                            </div>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">
+                                <i data-feather="settings"></i> Settings
+                            </a>
+                            <a href="/login" class="dropdown-item text-danger">
+                                <i data-feather="log-out"></i> Logout
+                            </a>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -60,7 +180,38 @@
 
     <!-- Initialize Icons -->
     <script>
-      feather.replace()
+      feather.replace();
+      
+      // Dropdown toggle
+      function toggleDropdown() {
+          document.getElementById('profile-dropdown').classList.toggle('active');
+      }
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+          const dropdown = document.getElementById('profile-dropdown');
+          if (!dropdown.contains(e.target)) {
+              dropdown.classList.remove('active');
+          }
+      });
+      
+      // Loader Logic
+      document.addEventListener('click', function(e) {
+          const link = e.target.closest('a');
+          if (link && link.href && !link.href.startsWith('#') && !link.target && !link.classList.contains('dropdown-item')) {
+              document.getElementById('primary-loader').classList.add('active');
+          }
+      });
+      
+      // Prevent loader on dropdown clicks
+      const dropdownItems = document.querySelectorAll('.dropdown-item');
+      dropdownItems.forEach(item => {
+          item.addEventListener('click', function(e) {
+              if(this.getAttribute('href') !== '#') {
+                  document.getElementById('primary-loader').classList.add('active');
+              }
+          });
+      });
     </script>
     <script src="/static/js/main.js"></script>
 </body>

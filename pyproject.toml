@@ -12,6 +12,7 @@ dependencies = [
     "ipykernel>=7.3.0",
     "joblib>=1.5.3",
     "lightgbm>=4.6.0",
+    "markdown>=3.10.3",
     "mlflow>=3.14.0",
     "numpy>=2.2.6",
     "ollama>=0.6.2",
@@ -27,4 +28,5 @@ dependencies = [
     "tavily-python>=0.7.26",
     "uvicorn>=0.51.0",
     "xgboost>=3.2.0",
+    "xhtml2pdf>=0.2.17",
 ]
