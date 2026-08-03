@@ -498,3 +498,195 @@ async def export_roadmap_pdf(request: Request):
     }
     
     return Response(content=pdf_bytes, media_type="application/pdf", headers=headers)
+
+@app.get("/settings", response_class=HTMLResponse)
+async def read_settings(request: Request):
+    from DB.create_db import get_database
+    import jwt
+    from APP.auth.utils import SECRET_KEY, ALGORITHM
+    
+    user_name = "Guest"
+    user_data = None
+    email = None
+    token_str = request.cookies.get("access_token")
+    if token_str and token_str.startswith("Bearer "):
+        token = token_str.split(" ")[1]
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            email = payload.get("sub")
+            if email:
+                db = get_database()
+                user = db["students"].find_one({"email": email})
+                if user:
+                    user_name = user.get("first_name", "Guest")
+                    user_data = user
+                    if "_id" in user_data:
+                        user_data["_id"] = str(user_data["_id"])
+        except Exception:
+            pass
+
+    if not email:
+        return RedirectResponse(url="/login", status_code=302)
+
+    return templates.TemplateResponse(
+        request=request, 
+        name="settings.html", 
+        context={"active_page": "settings", "user_name": user_name, "user": user_data}
+    )
+
+@app.post("/settings/update_profile")
+async def update_profile(
+    request: Request,
+    first_name: str = Form(...),
+    last_name: str = Form(""),
+    age: int = Form(...),
+    course: str = Form(...),
+    degree: str = Form(...)
+):
+    from DB.create_db import get_database
+    import jwt
+    from APP.auth.utils import SECRET_KEY, ALGORITHM
+    
+    email = None
+    token_str = request.cookies.get("access_token")
+    if token_str and token_str.startswith("Bearer "):
+        token = token_str.split(" ")[1]
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            email = payload.get("sub")
+        except:
+            pass
+            
+    if not email:
+        from fastapi.responses import JSONResponse
+        return JSONResponse(content={"status": "error", "message": "Not authenticated"}, status_code=401)
+        
+    db = get_database()
+    db["students"].update_one(
+        {"email": email},
+        {"$set": {
+            "first_name": first_name,
+            "last_name": last_name,
+            "age": age,
+            "course": course,
+            "degree": degree
+        }}
+    )
+    
+    from fastapi.responses import JSONResponse
+    return JSONResponse(content={"status": "success", "message": "Profile updated successfully"})
+
+
+@app.post("/settings/change_password")
+async def change_password(
+    request: Request,
+    current_password: str = Form(...),
+    new_password: str = Form(...)
+):
+    from DB.create_db import get_database
+    import jwt
+    from APP.auth.utils import SECRET_KEY, ALGORITHM, verify_password, get_password_hash
+    
+    email = None
+    token_str = request.cookies.get("access_token")
+    if token_str and token_str.startswith("Bearer "):
+        token = token_str.split(" ")[1]
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            email = payload.get("sub")
+        except:
+            pass
+            
+    from fastapi.responses import JSONResponse
+    if not email:
+        return JSONResponse(content={"status": "error", "message": "Not authenticated"}, status_code=401)
+        
+    db = get_database()
+    user = db["students"].find_one({"email": email})
+    
+    if not user or not verify_password(current_password, user.get("password_hash", "")):
+        return JSONResponse(content={"status": "error", "message": "Invalid current password"}, status_code=400)
+        
+    hashed_password = get_password_hash(new_password)
+    db["students"].update_one(
+        {"email": email},
+        {"$set": {"password_hash": hashed_password}}
+    )
+    
+    return JSONResponse(content={"status": "success", "message": "Password changed successfully"})
+
+@app.post("/settings/delete_data")
+async def delete_data(request: Request):
+    from DB.create_db import get_database
+    import jwt
+    from APP.auth.utils import SECRET_KEY, ALGORITHM
+    
+    email = None
+    token_str = request.cookies.get("access_token")
+    if token_str and token_str.startswith("Bearer "):
+        token = token_str.split(" ")[1]
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            email = payload.get("sub")
+        except:
+            pass
+            
+    from fastapi.responses import JSONResponse
+    if not email:
+        return JSONResponse(content={"status": "error", "message": "Not authenticated"}, status_code=401)
+        
+    db = get_database()
+    user = db["students"].find_one({"email": email})
+    
+    if user:
+        # Keep essential data, remove everything else
+        keep_keys = ["_id", "first_name", "last_name", "email", "password_hash"]
+        update_query = {"$unset": {k: "" for k in user.keys() if k not in keep_keys}}
+        if update_query["$unset"]:
+            db["students"].update_one({"email": email}, update_query)
+            
+    return JSONResponse(content={"status": "success", "message": "Personal data deleted successfully"})
+
+@app.post("/settings/delete_account")
+async def delete_account(request: Request):
+    from DB.create_db import get_database
+    import jwt
+    from APP.auth.utils import SECRET_KEY, ALGORITHM
+    from fastapi.responses import JSONResponse
+    
+    email = None
+    token_str = request.cookies.get("access_token")
+    if token_str and token_str.startswith("Bearer "):
+        token = token_str.split(" ")[1]
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            email = payload.get("sub")
+        except:
+            pass
+            
+    if not email:
+        return JSONResponse(content={"status": "error", "message": "Not authenticated"}, status_code=401)
+        
+    db = get_database()
+    db["students"].delete_one({"email": email})
+    
+    response = JSONResponse(content={"status": "success", "message": "Account deleted successfully", "redirect": "/login"})
+    response.delete_cookie("access_token")
+    return response
+
+@app.post("/settings/report_issue")
+async def report_issue(
+    request: Request,
+    issue_type: str = Form(...),
+    description: str = Form(...)
+):
+    from fastapi.responses import JSONResponse
+    return JSONResponse(content={"status": "success", "message": "Issue reported successfully"})
+
+@app.post("/settings/give_feedback")
+async def give_feedback(
+    request: Request,
+    feedback: str = Form(...)
+):
+    from fastapi.responses import JSONResponse
+    return JSONResponse(content={"status": "success", "message": "Feedback submitted successfully"})

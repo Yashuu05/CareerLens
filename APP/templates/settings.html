@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Settings | CareerLens{% endblock %}
+{% block breadcrumb %}Settings{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/css/settings.css">
+
+<div class="settings-container">
+    <div class="settings-sidebar">
+        <button class="tab-link active" onclick="openTab(event, 'Personal')">Personal Info</button>
+        <button class="tab-link" onclick="openTab(event, 'Account')">Account Settings</button>
+        <button class="tab-link" onclick="openTab(event, 'Feedback')">Help & Feedback</button>
+    </div>
+
+    <div class="settings-content">
+        <!-- Personal Info Tab -->
+        <div id="Personal" class="tab-content active">
+            <h2>Personal Information</h2>
+            <p class="section-desc">Update your personal details below.</p>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" name="first_name" value="{{ user.get('first_name', '') }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" id="last_name" name="last_name" value="{{ user.get('last_name', '') }}">
+                </div>
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" value="{{ user.get('age', '') }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="course">Course</label>
+                    <input type="text" id="course" name="course" value="{{ user.get('course', '') }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="degree">Degree</label>
+                    <input type="text" id="degree" name="degree" value="{{ user.get('degree', '') }}" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+
+        <!-- Account Settings Tab -->
+        <div id="Account" class="tab-content">
+            <h2>Change Password</h2>
+            <p class="section-desc">Ensure your account is using a long, random password to stay secure.</p>
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label for="current_password">Current Password</label>
+                    <input type="password" id="current_password" name="current_password" required>
+                </div>
+                <div class="form-group">
+                    <label for="new_password">New Password</label>
+                    <input type="password" id="new_password" name="new_password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Password</button>
+            </form>
+
+            <hr class="divider">
+
+            <div class="danger-zone">
+                <h2>Danger Zone</h2>
+                <div class="danger-item">
+                    <div>
+                        <h4>Delete Data</h4>
+                        <p>Permanently remove your auxiliary data (e.g. predictions, roadmaps) but keep your account active.</p>
+                    </div>
+                    <button id="deleteDataBtn" class="btn btn-warning">Delete Data</button>
+                </div>
+                <div class="danger-item">
+                    <div>
+                        <h4>Delete Account</h4>
+                        <p>Permanently remove your account and all associated data. This action cannot be undone.</p>
+                    </div>
+                    <button id="deleteAccountBtn" class="btn btn-danger">Delete Account</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help & Feedback Tab -->
+        <div id="Feedback" class="tab-content">
+            <h2>Report an Issue</h2>
+            <p class="section-desc">Found a bug or issue? Let us know.</p>
+            <form id="issueForm">
+                <div class="form-group">
+                    <label for="issue_type">Issue Type</label>
+                    <select id="issue_type" name="issue_type" required>
+                        <option value="software">Software / UI</option>
+                        <option value="bug">Bug</option>
+                        <option value="data">Data Inaccuracy</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Report Issue</button>
+            </form>
+
+            <hr class="divider">
+
+            <h2>Give Feedback</h2>
+            <p class="section-desc">We value your input to improve CareerLens.</p>
+            <form id="feedbackForm">
+                <div class="form-group">
+                    <label for="feedback">Your Feedback</label>
+                    <textarea id="feedback" name="feedback" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Double Confirmation -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <h3 id="modalTitle">Confirm Action</h3>
+        <p id="modalMessage">Are you sure you want to proceed?</p>
+        <div class="modal-actions">
+            <button id="cancelModalBtn" class="btn btn-secondary">Cancel</button>
+            <button id="confirmModalBtn" class="btn btn-danger">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/settings.js"></script>
+{% endblock %}
