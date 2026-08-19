@@ -30,6 +30,14 @@ async def read_index(request: Request):
         context={"active_page": "home"}
     )
 
+@app.get("/privacy", response_class=HTMLResponse)
+async def read_privacy(request: Request):
+    return templates.TemplateResponse(
+        request=request, 
+        name="privacy.html", 
+        context={"active_page": "privacy"}
+    )
+
 @app.get("/login", response_class=HTMLResponse)
 async def read_login(request: Request):
     return templates.TemplateResponse(

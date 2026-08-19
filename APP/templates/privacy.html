@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - CareerLens</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/landing.css') }}?v=2.0">
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        .privacy-container {
+            max-width: 800px;
+            margin: 6rem auto 4rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            line-height: 1.6;
+        }
+        .privacy-container h1 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .privacy-container h2 {
+            color: #1f2937;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .privacy-container p, .privacy-container ul {
+            color: #4b5563;
+            margin-bottom: 1rem;
+        }
+        .privacy-container ul {
+            padding-left: 1.5rem;
+        }
+        .important-notice {
+            background: #fff3cd;
+            color: #856404;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ffeeba;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-effects"></div>
+    <div class="bg-grid"></div>
+
+    <header id="navbar" class="scrolled">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i data-feather="compass"></i>
+                CareerLens
+            </a>
+            <nav class="nav-links">
+                <a href="/">Home</a>
+                <a href="/login" class="btn-secondary">Sign In</a>
+                <a href="/signup" class="btn-primary">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="privacy-container glass-card">
+            <h1>Privacy Policy</h1>
+            
+            <div class="important-notice">
+                <strong>Important Notice:</strong> This project is not made for production. It is built to showcase skills such as Machine Learning and MLOps, and as a trial to build end-to-end software. This platform is a college project and may not be accurate at prediction and calculation. Therefore, users should not blindly believe the calculations, prediction and roadmap. 
+            </div>
+
+            <h2>1. Information Collected</h2>
+            <p>We collect personal information that you provide to us to better serve your career growth. The data we gather includes:</p>
+            <ul>
+                <li>Names and Email addresses</li>
+                <li>Age and demographic information</li>
+                <li>Career details, academic backgrounds, and skill sets</li>
+            </ul>
+
+            <h2>2. Collection Methods</h2>
+            <p>We obtain your data primarily through user accounts and contact forms. When you sign up and fill out details in your profile, this project securely collects your data through forms and saves it safely to MongoDB Atlas. Users are authorized securely through JWT authentication.</p>
+
+            <h2>3. Purpose of Use</h2>
+            <p>We collect your data exclusively for processing, prediction, and calculation purposes. This allows us to provide personalized career insights, skill gap analysis, and roadmap generations.</p>
+
+            <h2>4. Third-Party Sharing</h2>
+            <p>We never sell any user data to third-party software. MongoDB Atlas and Google Gemini API are the only two third-party services used. We may collect and process data, such as Skill Gaps, by sending it to Google Gemini through their API to generate your AI Roadmap.</p>
+
+            <h2>5. User Rights</h2>
+            <p>You have full control over your personal data. Our platform provides a direct way for you to delete your user data or completely delete your account via the Settings page. You can access and change your personal details at any time.</p>
+
+            <h2>6. Open Source License</h2>
+            <p>This project is available on GitHub and registered under the GNU GENERAL PUBLIC LICENSE. Please refer to the LICENSE file in the root directory of the repository for more details.</p>
+
+            <h2>7. Contact Us</h2>
+            <p>If you have any questions or concerns about this privacy policy, please contact us via email at: <a href="mailto:chillalyash2005@gmail.com">chillalyash2005@gmail.com</a>.</p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <i data-feather="compass"></i>
+                    CareerLens
+                </a>
+                <p>AI-powered career coaching and placement prediction for engineering students.</p>
+            </div>
+            <div>
+                <div class="f-title">Legal</div>
+                <ul class="f-links">
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="https://github.com/Yashuu05/CareerLens">GitHub</a></li>
+                    <li><span style="color: #6B7280; font-size: 0.9rem;">Version 2.0</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 CareerLens. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
