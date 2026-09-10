@@ -15,11 +15,16 @@ app = FastAPI()
 from APP.auth.router import router as auth_router
 app.include_router(auth_router)
 
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Mount static files directory (CSS, JS, Images)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+static_dir = os.path.join(APP_DIR, "static")
+if os.path.exists(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 # Point FastAPI to the templates directory
-templates = Jinja2Templates(directory="templates")
+templates_dir = os.path.join(APP_DIR, "templates")
+templates = Jinja2Templates(directory=templates_dir)
 
 # defining api endpoints
 @app.get("/", response_class=HTMLResponse)
